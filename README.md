@@ -1,40 +1,60 @@
+¡Con mucho gusto! Actualizar la documentación es el toque final perfecto para que tu equipo sepa exactamente cómo aprovechar todo el trabajo de configuración que acabas de hacer. 
+
+He reestructurado el `README.md` para colocar la opción de **VS Code con Dev Containers como la principal y más recomendada**, ya que es la que menos problemas de configuración les dará a tus compañeros. También mantuve las instrucciones para NetBeans y la consola por si alguien prefiere esos métodos.
+
+Copia este texto y pégalo en tu archivo `README.md`, guarda los cambios y haz un nuevo *commit* y *push*.
+
+```markdown
 # Compilador Turbo X - Fase I (Análisis Léxico) 🚀
 
 Este repositorio contiene la Fase I del proyecto de construcción del compilador para el lenguaje Turbo $X^{\wedge}2$. En esta etapa, el analizador léxico (Scanner) está construido utilizando **Java** y **JFlex**.
 
-## 📌 Requisitos Previos
-* **Java JDK 22** (Recomendado para evitar conflictos de versión).
-* IDE de desarrollo (NetBeans, IntelliJ o Eclipse).
-* **Docker** (Opcional, para ejecución en contenedor aislado).
+---
+
+## 📌 Requisitos Previos Generales
+* Clonar este repositorio en tu máquina local.
+* **Docker Desktop** instalado y en ejecución (Recomendado).
+* IDE de desarrollo (Visual Studio Code o NetBeans).
 
 ---
 
-## 💻 Opción 1: Cómo ejecutar el proyecto en NetBeans (IDE)
+## 🌟 Opción 1: VS Code + Dev Containers (Recomendado)
+Esta es la forma más segura de trabajar en equipo. Utiliza un contenedor de Docker integrado directamente en el IDE, garantizando que todos tengamos la misma versión de Java y las mismas extensiones sin configurar nada localmente.
 
-Al clonar este repositorio, la carpeta compilada (`build`) y los archivos generados automáticamente no se incluyen. Sigue estos pasos para que el proyecto funcione correctamente en tu máquina:
+**Requisitos extra:** Instalar la extensión "Dev Containers" en VS Code.
 
-### 1. Vincular la librería JFlex
-Dado que las rutas absolutas cambian entre computadoras, debes re-vincular JFlex a la carpeta local del proyecto:
-1. En NetBeans, despliega el proyecto y ve a la carpeta **Libraries**.
-2. Si ves `jflex-full-1.9.1.jar` con un error, dale clic derecho y selecciona **Remove**.
+**Pasos:**
+1. Abre la carpeta del proyecto en VS Code.
+2. En la esquina inferior derecha aparecerá una notificación. Haz clic en el botón **"Reopen in Container"** (Reabrir en contenedor).
+3. VS Code construirá el entorno automáticamente (tomará unos minutos la primera vez).
+4. Una vez cargado, abre el archivo `src/codigo/GeneradorLexer.java` y haz clic en el botón **Run** (o ejecuta el archivo) para crear el analizador.
+5. Edita el archivo `prueba.txt` con el código que desees analizar.
+6. Abre `src/codigo/Main.java` y haz clic en **Run**. La terminal integrada mostrará los tokens procesados.
+
+---
+
+## ☕ Opción 2: Cómo ejecutar el proyecto en NetBeans
+
+Si prefieres usar NetBeans de forma local, debes asegurarte de tener el **JDK 22** instalado y vincular correctamente la librería de JFlex que se incluye en el repositorio.
+
+**Pasos:**
+1. Abre el proyecto en NetBeans.
+2. Despliega la carpeta **Libraries**. Si ves `jflex-full-1.9.1.jar` con un error, dale clic derecho y selecciona **Remove**.
 3. Haz clic derecho en **Libraries** -> **Add JAR/Folder...**
-4. Navega dentro de este mismo proyecto descargado, entra a la carpeta `lib/` y selecciona el archivo `jflex-full-1.9.1.jar`.
-
-### 2. Orden de Ejecución
-Para que el compilador funcione, debes generar el Lexer antes de correr el Main:
-1. Abre el archivo `GeneradorLexer.java` y ejecútalo (**Shift + F6**). Esto leerá las reglas de `Lexer.flex` y creará la clase `Lexer.java`.
-2. Escribe o modifica el código de prueba en el archivo `prueba.txt`.
-3. Abre el archivo `Main.java` y ejecútalo (**Shift + F6**). Verás en la consola la lista de tokens reconocidos y cualquier error léxico detectado.
+4. Navega dentro de la carpeta de este proyecto, entra a la carpeta `lib/` y selecciona el archivo `jflex-full-1.9.1.jar`.
+5. Ejecuta `GeneradorLexer.java` (**Shift + F6**) para crear la clase `Lexer.java`.
+6. Edita el archivo `prueba.txt` con las sentencias de Turbo X a evaluar.
+7. Ejecuta `Main.java` (**Shift + F6**) para ver la salida en consola.
 
 ---
 
-## 🐳 Opción 2: Cómo ejecutar usando Docker (Terminal)
+## 🐳 Opción 3: Ejecución rápida con Docker (Terminal)
 
-Si prefieres no configurar el IDE o tienes problemas con las versiones de Java, puedes correr el analizador léxico usando Docker. Esto creará un entorno virtual con todo lo necesario.
+Si solo quieres probar el compilador rápidamente sin abrir un IDE, puedes usar la consola de comandos.
 
 Abre tu terminal en la carpeta raíz del proyecto y ejecuta:
 
-**1. Construir la imagen (Solo la primera vez o si modificas el código):**
+**1. Construir la imagen (Solo la primera vez o si el código fuente cambia):**
 ```bash
 docker build -t compilador-turbo-x .
 ```
@@ -43,7 +63,9 @@ docker build -t compilador-turbo-x .
 ```bash
 docker run --rm compilador-turbo-x
 ```
-Esto compilará los archivos, leerá las instrucciones de `prueba.txt`, imprimirá los tokens en consola y destruirá el contenedor al finalizar para no ocupar espacio.
+Esto compilará los archivos, analizará el contenido actual de `prueba.txt`, imprimirá el resultado en consola y destruirá el contenedor al finalizar.
 
 ---
-**Nota para el equipo:** No modificar manualmente el archivo `Lexer.java`. Cualquier cambio en los tokens o expresiones regulares debe hacerse únicamente dentro de `Lexer.flex`.
+**⚠️ Notas Importantes para el Equipo:** * La carpeta compilada (`build/`) y el archivo `Lexer.java` son ignorados por Git de forma intencional para evitar conflictos. **Cada miembro debe generar su propio Lexer localmente** ejecutando `GeneradorLexer.java`.
+* **NO modificar manualmente el archivo `Lexer.java`.** Cualquier ajuste en los tokens o expresiones regulares debe hacerse exclusivamente editando el archivo `Lexer.flex`.
+```

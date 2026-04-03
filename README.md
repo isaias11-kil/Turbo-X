@@ -1,10 +1,4 @@
-¡Con mucho gusto! Actualizar la documentación es el toque final perfecto para que tu equipo sepa exactamente cómo aprovechar todo el trabajo de configuración que acabas de hacer. 
 
-He reestructurado el `README.md` para colocar la opción de **VS Code con Dev Containers como la principal y más recomendada**, ya que es la que menos problemas de configuración les dará a tus compañeros. También mantuve las instrucciones para NetBeans y la consola por si alguien prefiere esos métodos.
-
-Copia este texto y pégalo en tu archivo `README.md`, guarda los cambios y haz un nuevo *commit* y *push*.
-
-```markdown
 # Compilador Turbo X - Fase I (Análisis Léxico) 🚀
 
 Este repositorio contiene la Fase I del proyecto de construcción del compilador para el lenguaje Turbo $X^{\wedge}2$. En esta etapa, el analizador léxico (Scanner) está construido utilizando **Java** y **JFlex**.

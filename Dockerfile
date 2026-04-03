@@ -1,14 +1,16 @@
-# 1. Usar una imagen oficial de Java (JDK 17 es un estándar muy estable)
-FROM openjdk:17-jdk-slim
+# 1. Usar la imagen oficial de Java (JDK 22)
+FROM eclipse-temurin:22-jdk
 
-# 2. Instalar la herramienta "ant" (NetBeans la usa para compilar con su archivo build.xml)
-RUN apt-get update && apt-get install -y ant && rm -rf /var/lib/apt/lists/*
-
-# 3. Crear una carpeta dentro del contenedor para el proyecto
+# 2. Establecer la carpeta de trabajo dentro del contenedor
 WORKDIR /app
 
-# 4. Copiar todo el código de tu proyecto al contenedor
+# 3. Copiar todo el código de tu proyecto al contenedor
 COPY . /app
 
-# 5. Abrir la terminal interactiva por defecto al iniciar
-CMD ["/bin/bash"]
+# 4. Compilar los archivos Java manualmente (para Linux)
+# Le decimos a Java dónde está JFlex y dónde guardar los compilados
+RUN javac -cp "Libraries/jflex-full-1.9.1.jar" -d build src/codigo/*.java
+
+# 5. Comando que se ejecutará por defecto al iniciar el contenedor
+# Ejecuta el Main pasándole la ruta de la librería y de los compilados
+CMD ["java", "-cp", "build:Libraries/jflex-full-1.9.1.jar", "codigo.Main"]

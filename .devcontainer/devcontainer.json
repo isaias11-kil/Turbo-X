@@ -1,0 +1,12 @@
+{
+    "name": "Compilador Turbo X",
+    "image": "mcr.microsoft.com/devcontainers/java:21",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "vscjava.vscode-java-pack"
+            ]
+        }
+    },
+    "postCreateCommand": "echo 'Entorno listo para compilar Turbo X'"
+}

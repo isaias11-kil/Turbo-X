@@ -1,0 +1,34 @@
+// Este es un comentario de una línea
+/* Programa para calcular la potencia de un número
+   y verificar si el resultado es mayor a 100.
+*/
+
+INICIO
+    DEFINIR base, exponente COMO Real;
+    DEFINIR resultado COMO Real;
+    DEFINIR esGrande COMO Logico;
+
+    ESCRIBIR "Ingrese la base:";
+    LEER base;
+
+    ESCRIBIR "Ingrese el exponente:";
+    LEER exponente;
+
+    // Uso del operador de potencia definido en el Lexer (^)
+    resultado <- base ^ exponente;
+
+    SI (resultado > 100) ENTONCES {
+        esGrande <- Verdadero;
+        ESCRIBIR "El resultado es mayor a cien";
+    } SINO {
+        esGrande <- Falso;
+        ESCRIBIR "El resultado es pequeño";
+    }
+
+    MIENTRAS (resultado < 200) HACER {
+        resultado <- resultado + 10;
+        ESCRIBIR "Aumentando resultado...";
+    }
+
+    ESCRIBIR "Proceso finalizado.";
+FIN

@@ -1,0 +1,5 @@
+INICIO
+a == 1 ;
+b == Verdadero ;
+c == Falso ;
+FIN

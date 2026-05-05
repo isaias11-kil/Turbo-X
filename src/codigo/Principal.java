@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package codigo;
 
 import java.io.File;
@@ -17,8 +13,11 @@ String ruta = System.getProperty("user.dir") + "/src/codigo/Lexer.flex";
         generarLexer(ruta);
     }
     public static void generarLexer(String ruta){
-        File archivo = new File(ruta);
-        JFlex.Main.generate(archivo);
+        try {
+            jflex.Main.generate(new String[]{ruta});
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
 //Comando a ejecutar en cmd desde la carpeta del proyecto si no se genera Lexer.java

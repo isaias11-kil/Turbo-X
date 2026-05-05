@@ -3,6 +3,6 @@
 
 # Carpetas de NetBeans
 build/
-nbproject/private/
+nbproject/
 nbbuild/
 dist/

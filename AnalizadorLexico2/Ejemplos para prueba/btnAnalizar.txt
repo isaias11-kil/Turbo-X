@@ -1,0 +1,44 @@
+//seccion para crear archivo donde se guardara la entrada del txtentrada
+       //para ser analizado
+        File archivo = new File("archivo.txt");
+       PrintWriter escribir;
+        try {
+            escribir = new PrintWriter(archivo);
+            escribir.print(txtEntrada.getText());
+            escribir.close();
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        //seccion donde se leera el archivo por el Jflex
+        try {
+            Reader lector = new BufferedReader(new FileReader("archivo.txt"));
+            Lexer lexer = new Lexer(lector);
+            String resultado = "";
+            while (true) {
+                Tokens tokens = lexer.yylex();
+                if (tokens == null) {
+                    resultado += "FIN";
+                    txtResultado.setText(resultado);
+                    
+                    return;//salir del while
+                }
+                //cambiar de estado por palabras reservadas
+                switch(tokens){
+                    case ERROR:
+                        resultado +="TOKEN :" +lexer.lexeme+ " Es Simbolo no definido\n";
+                        break;
+                    case Reservadas : case Tipo: case Igual: case Suma: case Resta: case Multiplicacion: case Division: case Operador: case Simbolo: case Identificador: case Numero:
+                        resultado +="TOKEN :" + lexer.lexeme + " Es un " + tokens + "\n";
+                        break;
+                    default:
+                        resultado += "Token : " + tokens + "\n";
+                        break;
+                }
+                
+            }
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        

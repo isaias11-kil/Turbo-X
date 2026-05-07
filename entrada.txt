@@ -1,0 +1,5 @@
+INICIO
+Entero x <- 5*2+3;
+Real y <- 3.5;
+Cadena nombre <- "Brayan";
+FIN

@@ -1,0 +1,359 @@
+package codigo;
+
+import java_cup.runtime.*;
+import java.util.HashMap;
+import java_cup.parser;
+
+
+parser code {:
+
+    // GUARDA LOS VALORES DE LAS VARIABLES
+    public static HashMap<String, Object> tablaSimbolos = new HashMap<>();
+
+    // GUARDA EL TIPO DE CADA VARIABLE
+    public static HashMap<String, String> tipos = new HashMap<>();
+
+    // PERMITE HACER PRUEBAS DESDE EL TECLADO
+   public static void main(String[] args) throws Exception {
+
+    java.io.Reader reader = new java.io.BufferedReader(
+        new java.io.FileReader("./entrada.txt")
+    );
+
+    LexerCup lexer = new LexerCup(reader);
+
+    Sintax p = new Sintax(lexer);
+
+    p.parse();
+}
+
+:};
+
+
+// TERMINALES CON VALOR
+terminal String Identificador;
+terminal String Numero;
+terminal String LITERAL_CADENA;
+
+// TERMINALES SIN VALOR
+terminal RESERVADA_INICIO, RESERVADA_FIN;
+terminal CONTROL_SI, CONTROL_ENTONCES, CONTROL_SINO;
+terminal CONTROL_MIENTRAS, CONTROL_HACER;
+terminal DEFINIR, COMO;
+terminal ESCRIBIR, LEER;
+
+terminal  TIPO_LOGICO;
+terminal  TIPO_ENTERO;
+terminal  TIPO_REAL;
+terminal  TIPO_CARACTER;
+terminal  TIPO_CADENA;
+
+terminal VALOR_VERDADERO;
+terminal VALOR_FALSO;
+
+terminal ASIGNACION;
+
+terminal OP_SUMA;
+terminal OP_RESTA;
+terminal OP_MULTIPLICACION;
+terminal OP_DIVISION;
+terminal OP_POTENCIA;
+terminal OP_POTENCIA_DOBLE;
+
+terminal OP_MAYOR;
+terminal OP_MENOR;
+terminal OP_IGUALDAD;
+terminal OP_DIFERENTE;
+
+terminal PUNTO_COMA;
+terminal COMA;
+
+terminal PARENTESIS_ABRE;
+terminal PARENTESIS_CIERRA;
+
+terminal LLAVE_ABRE;
+terminal LLAVE_CIERRA;
+
+terminal LITERAL_REAL;
+terminal LITERAL_ENTERO;
+terminal LITERAL_CARACTER;
+
+
+terminal COMENTARIO;
+terminal COMENTARIO_MULTILINEA;
+terminal ERROR;
+
+
+// NO TERMINALES
+non terminal Object S;
+non terminal Object ListaAsignaciones;
+non terminal Object Asignacion;
+non terminal Object Exp;
+
+non terminal String Tipo;
+
+
+// PRECEDENCIA DE OPERADORES
+precedence left OP_SUMA, OP_RESTA;
+precedence left OP_MULTIPLICACION, OP_DIVISION;
+
+
+// REGLA INICIAL
+start with S;
+
+
+// INICIO DEL PROGRAMA
+S ::= RESERVADA_INICIO ListaAsignaciones RESERVADA_FIN
+{:
+    System.out.println("Analisis completado.");
+    RESULT = "Análisis completado";
+:};
+
+
+// LISTA DE ASIGNACIONES
+ListaAsignaciones ::=
+      ListaAsignaciones Asignacion
+    | Asignacion
+    ;
+
+
+// ASIGNACIONES
+Asignacion ::=
+    Tipo:tipo Identificador:id ASIGNACION Exp:val PUNTO_COMA
+    {:
+
+        String tipoStr = tipo;
+        String idStr = id;
+        Object valor = val;
+
+         //pruebas
+        System.out.println("TIPO: " + tipoStr);
+        System.out.println("VALOR: " + valor);
+        System.out.println("CLASE: " + valor.getClass());
+         //***************************************************************
+
+
+        if (tipoStr.equals("entero") && valor instanceof Integer) {
+
+            tablaSimbolos.put(idStr, valor);
+            tipos.put(idStr, tipoStr);
+
+            System.out.println("Asignacion valida: "
+                    + idStr + " = " + valor);
+
+        } else if (tipoStr.equals("real")
+                && valor instanceof Double) {
+
+            tablaSimbolos.put(idStr, valor);
+            tipos.put(idStr, tipoStr);
+
+            System.out.println("Asignacion valida: "
+                    + idStr + " = " + valor);
+
+        } else if (tipoStr.equals("cadena")
+                && valor instanceof String) {
+
+            tablaSimbolos.put(idStr, valor);
+            tipos.put(idStr, tipoStr);
+
+            System.out.println("Asignacion valida: "
+                    + idStr + " = " + valor);
+
+        } else {
+
+            System.err.println(
+                "Error de tipo: valor incompatible."
+            );
+        }
+
+        RESULT = null;
+
+    :};
+
+
+// EXPRESIONES
+Exp ::=
+
+    // SUMA
+    Exp:left OP_SUMA Exp:right
+    {:
+
+        if (left instanceof Integer
+                && right instanceof Integer) {
+
+            RESULT = (Integer) left
+                    + (Integer) right;
+
+        } else if (left instanceof Number
+                && right instanceof Number) {
+
+            RESULT =
+                ((Number) left).doubleValue()
+                +
+                ((Number) right).doubleValue();
+
+        } else {
+
+            System.err.println(
+                "Error de tipos en suma"
+            );
+
+            RESULT = 0;
+        }
+
+    :}
+
+
+    // RESTA
+    | Exp:left OP_RESTA Exp:right
+    {:
+
+        if (left instanceof Integer
+                && right instanceof Integer) {
+
+            RESULT = (Integer) left
+                    - (Integer) right;
+
+        } else if (left instanceof Number
+                && right instanceof Number) {
+
+            RESULT =
+                ((Number) left).doubleValue()
+                -
+                ((Number) right).doubleValue();
+
+        } else {
+
+            System.err.println(
+                "Error de tipos en resta"
+            );
+
+            RESULT = 0;
+        }
+
+    :}
+
+
+    // MULTIPLICACION
+    | Exp:left OP_MULTIPLICACION Exp:right
+    {:
+
+        if (left instanceof Integer
+                && right instanceof Integer) {
+
+            RESULT = (Integer) left
+                    * (Integer) right;
+
+        } else if (left instanceof Number
+                && right instanceof Number) {
+
+            RESULT =
+                ((Number) left).doubleValue()
+                *
+                ((Number) right).doubleValue();
+
+        } else {
+
+            System.err.println(
+                "Error de tipos en multiplicacion"
+            );
+
+            RESULT = 0;
+        }
+
+    :}
+
+
+    // DIVISION
+    | Exp:left OP_DIVISION Exp:right
+    {:
+
+        if (left instanceof Integer
+                && right instanceof Integer) {
+
+            RESULT = (Integer) left
+                    / (Integer) right;
+
+        } else if (left instanceof Number
+                && right instanceof Number) {
+
+            RESULT =
+                ((Number) left).doubleValue()
+                /
+                ((Number) right).doubleValue();
+
+        } else {
+
+            System.err.println(
+                "Error de tipos en division"
+            );
+
+            RESULT = 0;
+        }
+
+    :}
+
+
+    // NUMEROS
+    | Numero:num
+    {:
+
+        String texto = num;
+
+        if (texto.contains(".")) {
+
+            RESULT = Double.parseDouble(texto);
+
+        } else {
+
+            RESULT = Integer.parseInt(texto);
+        }
+
+    :}
+
+
+    // IDENTIFICADORES
+    | Identificador:id
+    {:
+
+        String nombre = id;
+
+        if (tablaSimbolos.containsKey(nombre)) {
+
+            RESULT = tablaSimbolos.get(nombre);
+
+        } else {
+
+            System.err.println(
+                "Variable no definida: " + nombre
+            );
+
+            RESULT = 0;
+        }
+
+    :}
+
+
+    // CADENAS
+    | LITERAL_CADENA:cad
+    {:
+         RESULT = cad.replace("\"", "");
+    :}
+
+    ;
+
+
+// TIPOS DE DATOS
+Tipo ::=
+
+      TIPO_ENTERO
+        {: RESULT = "entero"; :}
+
+    | TIPO_REAL
+        {: RESULT = "real"; :}
+
+    | TIPO_CADENA
+        {: RESULT = "cadena"; :}
+
+    ;
+

@@ -19,7 +19,7 @@ ESPACIO=[ \t\r\n]+
 
 NUM={D}+(\.{D}+)?      // Enteros y decimales
 
-Caracter = \'[^\']\'
+//Caracter = \'[^\']\'
 
 // Comentarios
 COMENTARIO = "//"[^\n]*

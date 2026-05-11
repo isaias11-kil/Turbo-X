@@ -12,6 +12,7 @@ public enum Tokens {
     COMO,
     ESCRIBIR,
     LEER,
+    GRAFICAR,
     TIPO_LOGICO,
     TIPO_ENTERO,
     TIPO_REAL,
@@ -48,5 +49,6 @@ public enum Tokens {
     EOF,
     COMENTARIO,
     ERROR
+
 }
 //java -jar C:\jflex\JFlex.jar Lexer.flex

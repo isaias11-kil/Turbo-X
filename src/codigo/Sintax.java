@@ -33,11 +33,12 @@ public class Sintax extends java_cup.runtime.lr_parser {
   /** Production table. */
   protected static final short _production_table[][] = 
     unpackFromStrings(new String[] {
-    "\000\017\000\002\002\004\000\002\002\005\000\002\003" +
-    "\004\000\002\003\003\000\002\004\007\000\002\005\005" +
-    "\000\002\005\005\000\002\005\005\000\002\005\005\000" +
-    "\002\005\003\000\002\005\003\000\002\005\003\000\002" +
-    "\006\003\000\002\006\003\000\002\006\003" });
+    "\000\022\000\002\002\004\000\002\002\005\000\002\003" +
+    "\004\000\002\003\003\000\002\004\003\000\002\004\003" +
+    "\000\002\006\007\000\002\005\007\000\002\007\005\000" +
+    "\002\007\005\000\002\007\005\000\002\007\005\000\002" +
+    "\007\003\000\002\007\003\000\002\007\003\000\002\010" +
+    "\003\000\002\010\003\000\002\010\003" });
 
   /** Access to production table. */
   public short[][] production_table() {return _production_table;}
@@ -45,28 +46,34 @@ public class Sintax extends java_cup.runtime.lr_parser {
   /** Parse-action table. */
   protected static final short[][] _action_table = 
     unpackFromStrings(new String[] {
-    "\000\033\000\004\007\004\001\002\000\010\023\013\024" +
-    "\014\026\011\001\002\000\004\002\006\001\002\000\004" +
-    "\002\001\001\002\000\004\004\017\001\002\000\012\010" +
-    "\016\023\013\024\014\026\011\001\002\000\004\004\ufff3" +
-    "\001\002\000\012\010\ufffe\023\ufffe\024\ufffe\026\ufffe\001" +
-    "\002\000\004\004\ufff5\001\002\000\004\004\ufff4\001\002" +
-    "\000\012\010\uffff\023\uffff\024\uffff\026\uffff\001\002\000" +
-    "\004\002\000\001\002\000\004\031\020\001\002\000\010" +
-    "\004\024\005\021\006\023\001\002\000\014\032\ufff8\033" +
-    "\ufff8\034\ufff8\035\ufff8\044\ufff8\001\002\000\014\032\027" +
-    "\033\025\034\031\035\030\044\026\001\002\000\014\032" +
-    "\ufff6\033\ufff6\034\ufff6\035\ufff6\044\ufff6\001\002\000\014" +
-    "\032\ufff7\033\ufff7\034\ufff7\035\ufff7\044\ufff7\001\002\000" +
-    "\010\004\024\005\021\006\023\001\002\000\012\010\ufffd" +
-    "\023\ufffd\024\ufffd\026\ufffd\001\002\000\010\004\024\005" +
-    "\021\006\023\001\002\000\010\004\024\005\021\006\023" +
-    "\001\002\000\010\004\024\005\021\006\023\001\002\000" +
-    "\014\032\ufffa\033\ufffa\034\ufffa\035\ufffa\044\ufffa\001\002" +
-    "\000\014\032\ufff9\033\ufff9\034\ufff9\035\ufff9\044\ufff9\001" +
-    "\002\000\014\032\ufffc\033\ufffc\034\031\035\030\044\ufffc" +
-    "\001\002\000\014\032\ufffb\033\ufffb\034\031\035\030\044" +
-    "\ufffb\001\002" });
+    "\000\042\000\004\007\004\001\002\000\012\022\016\024" +
+    "\013\025\011\027\017\001\002\000\004\002\006\001\002" +
+    "\000\004\002\001\001\002\000\004\004\026\001\002\000" +
+    "\014\010\024\022\016\024\013\025\011\027\017\001\002" +
+    "\000\004\004\ufff1\001\002\000\014\010\ufffd\022\ufffd\024" +
+    "\ufffd\025\ufffd\027\ufffd\001\002\000\004\004\ufff2\001\002" +
+    "\000\014\010\ufffe\022\ufffe\024\ufffe\025\ufffe\027\ufffe\001" +
+    "\002\000\014\010\ufffc\022\ufffc\024\ufffc\025\ufffc\027\ufffc" +
+    "\001\002\000\004\047\020\001\002\000\004\004\ufff0\001" +
+    "\002\000\004\004\021\001\002\000\004\050\022\001\002" +
+    "\000\004\045\023\001\002\000\014\010\ufffb\022\ufffb\024" +
+    "\ufffb\025\ufffb\027\ufffb\001\002\000\004\002\000\001\002" +
+    "\000\014\010\uffff\022\uffff\024\uffff\025\uffff\027\uffff\001" +
+    "\002\000\004\032\027\001\002\000\010\004\033\005\030" +
+    "\006\032\001\002\000\014\033\ufff5\034\ufff5\035\ufff5\036" +
+    "\ufff5\045\ufff5\001\002\000\014\033\034\034\035\035\040" +
+    "\036\037\045\036\001\002\000\014\033\ufff3\034\ufff3\035" +
+    "\ufff3\036\ufff3\045\ufff3\001\002\000\014\033\ufff4\034\ufff4" +
+    "\035\ufff4\036\ufff4\045\ufff4\001\002\000\010\004\033\005" +
+    "\030\006\032\001\002\000\010\004\033\005\030\006\032" +
+    "\001\002\000\014\010\ufffa\022\ufffa\024\ufffa\025\ufffa\027" +
+    "\ufffa\001\002\000\010\004\033\005\030\006\032\001\002" +
+    "\000\010\004\033\005\030\006\032\001\002\000\014\033" +
+    "\ufff7\034\ufff7\035\ufff7\036\ufff7\045\ufff7\001\002\000\014" +
+    "\033\ufff6\034\ufff6\035\ufff6\036\ufff6\045\ufff6\001\002\000" +
+    "\014\033\ufff8\034\ufff8\035\040\036\037\045\ufff8\001\002" +
+    "\000\014\033\ufff9\034\ufff9\035\040\036\037\045\ufff9\001" +
+    "\002" });
 
   /** Access to parse-action table. */
   public short[][] action_table() {return _action_table;}
@@ -74,17 +81,19 @@ public class Sintax extends java_cup.runtime.lr_parser {
   /** <code>reduce_goto</code> table. */
   protected static final short[][] _reduce_table = 
     unpackFromStrings(new String[] {
-    "\000\033\000\004\002\004\001\001\000\010\003\007\004" +
-    "\011\006\006\001\001\000\002\001\001\000\002\001\001" +
-    "\000\002\001\001\000\006\004\014\006\006\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
+    "\000\042\000\004\002\004\001\001\000\014\003\007\004" +
+    "\013\005\011\006\014\010\006\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\012\004\024\005" +
+    "\011\006\014\010\006\001\001\000\002\001\001\000\002" +
     "\001\001\000\002\001\001\000\002\001\001\000\002\001" +
-    "\001\000\004\005\021\001\001\000\002\001\001\000\002" +
-    "\001\001\000\002\001\001\000\002\001\001\000\004\005" +
-    "\034\001\001\000\002\001\001\000\004\005\033\001\001" +
-    "\000\004\005\032\001\001\000\004\005\031\001\001\000" +
-    "\002\001\001\000\002\001\001\000\002\001\001\000\002" +
-    "\001\001" });
+    "\001\000\002\001\001\000\002\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\002\001\001\000\004" +
+    "\007\030\001\001\000\002\001\001\000\002\001\001\000" +
+    "\002\001\001\000\002\001\001\000\004\007\043\001\001" +
+    "\000\004\007\042\001\001\000\002\001\001\000\004\007" +
+    "\041\001\001\000\004\007\040\001\001\000\002\001\001" +
+    "\000\002\001\001\000\002\001\001\000\002\001\001" });
 
   /** Access to <code>reduce_goto</code> table. */
   public short[][] reduce_table() {return _reduce_table;}
@@ -123,27 +132,24 @@ public class Sintax extends java_cup.runtime.lr_parser {
 
 
 
-
     // GUARDA LOS VALORES DE LAS VARIABLES
     public static HashMap<String, Object> tablaSimbolos = new HashMap<>();
 
     // GUARDA EL TIPO DE CADA VARIABLE
     public static HashMap<String, String> tipos = new HashMap<>();
 
+    // Juez semántico compartido para la interfaz gráfica
+    public static final TablaDeSimbolos miJuez = new TablaDeSimbolos();
+
     // PERMITE HACER PRUEBAS DESDE EL TECLADO
    public static void main(String[] args) throws Exception {
-
     java.io.Reader reader = new java.io.BufferedReader(
         new java.io.FileReader("./entrada.txt")
     );
-
     LexerCup lexer = new LexerCup(reader);
-
     Sintax p = new Sintax(lexer);
-
     p.parse();
 }
-
 
 
 /** Cup generated class to encapsulate user supplied action code.*/
@@ -185,7 +191,7 @@ class CUP$Sintax$actions {
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 1: // S ::= RESERVADA_INICIO ListaAsignaciones RESERVADA_FIN 
+          case 1: // S ::= RESERVADA_INICIO ListaInstrucciones RESERVADA_FIN 
             {
               Object RESULT =null;
 		
@@ -197,25 +203,74 @@ class CUP$Sintax$actions {
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 2: // ListaAsignaciones ::= ListaAsignaciones Asignacion 
+          case 2: // ListaInstrucciones ::= ListaInstrucciones Instruccion 
             {
               Object RESULT =null;
 
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("ListaAsignaciones",1, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("ListaInstrucciones",1, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 3: // ListaAsignaciones ::= Asignacion 
+          case 3: // ListaInstrucciones ::= Instruccion 
             {
               Object RESULT =null;
 
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("ListaAsignaciones",1, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("ListaInstrucciones",1, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 4: // Asignacion ::= Tipo Identificador ASIGNACION Exp PUNTO_COMA 
+          case 4: // Instruccion ::= Asignacion 
+            {
+              Object RESULT =null;
+
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Instruccion",2, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+            }
+          return CUP$Sintax$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 5: // Instruccion ::= GraficarInstr 
+            {
+              Object RESULT =null;
+
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Instruccion",2, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+            }
+          return CUP$Sintax$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 6: // GraficarInstr ::= GRAFICAR PARENTESIS_ABRE Identificador PARENTESIS_CIERRA PUNTO_COMA 
+            {
+              Object RESULT =null;
+		int idleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).left;
+		int idright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).right;
+		String id = (String)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).value;
+		
+        String nombreVar = id;
+        
+        // El Juez Semántico verifica si la variable existe antes de graficarla
+        if (tablaSimbolos.containsKey(nombreVar)) {
+            Object valor = tablaSimbolos.get(nombreVar);
+            String tipoVar = tipos.get(nombreVar);
+            
+            System.out.println(">> Acción Semántica: Mandando a graficar la variable '" + nombreVar + "'");
+            System.out.println(">> Tipo: " + tipoVar + ", Valor base: " + valor);
+            // También registramos el uso exitoso en el juez semántico
+            miJuez.obtenerVariableEstricto(nombreVar, idleft);
+            // Aquí en el futuro se conectará la lógica visual (ej. JFreeChart)
+        } else {
+            String error = "ERROR SEMÁNTICO [Línea " + idleft + "]: No se puede graficar '" + nombreVar + "' porque no ha sido definida.";
+            miJuez.erroresSemanticos.add(error);
+            System.err.println(error);
+        }
+        RESULT = null;
+    
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("GraficarInstr",4, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-4)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+            }
+          return CUP$Sintax$result;
+
+          /*. . . . . . . . . . . . . . . . . . . .*/
+          case 7: // Asignacion ::= Tipo Identificador ASIGNACION Exp PUNTO_COMA 
             {
               Object RESULT =null;
 		int tipoleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-4)).left;
@@ -228,7 +283,6 @@ class CUP$Sintax$actions {
 		int valright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).right;
 		Object val = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.elementAt(CUP$Sintax$top-1)).value;
 		
-
         String tipoStr = tipo;
         String idStr = id;
         Object valor = val;
@@ -239,49 +293,34 @@ class CUP$Sintax$actions {
         System.out.println("CLASE: " + valor.getClass());
          //***************************************************************
 
-
         if (tipoStr.equals("entero") && valor instanceof Integer) {
-
             tablaSimbolos.put(idStr, valor);
             tipos.put(idStr, tipoStr);
-
-            System.out.println("Asignacion valida: "
-                    + idStr + " = " + valor);
-
-        } else if (tipoStr.equals("real")
-                && valor instanceof Double) {
-
+            miJuez.declararVariable(idStr, tipoStr, valor, idleft);
+            System.out.println("Asignacion valida: " + idStr + " = " + valor);
+        } else if (tipoStr.equals("real") && valor instanceof Double) {
             tablaSimbolos.put(idStr, valor);
             tipos.put(idStr, tipoStr);
-
-            System.out.println("Asignacion valida: "
-                    + idStr + " = " + valor);
-
-        } else if (tipoStr.equals("cadena")
-                && valor instanceof String) {
-
+            miJuez.declararVariable(idStr, tipoStr, valor, idleft);
+            System.out.println("Asignacion valida: " + idStr + " = " + valor);
+        } else if (tipoStr.equals("cadena") && valor instanceof String) {
             tablaSimbolos.put(idStr, valor);
             tipos.put(idStr, tipoStr);
-
-            System.out.println("Asignacion valida: "
-                    + idStr + " = " + valor);
-
+            miJuez.declararVariable(idStr, tipoStr, valor, idleft);
+            System.out.println("Asignacion valida: " + idStr + " = " + valor);
         } else {
-
-            System.err.println(
-                "Error de tipo: valor incompatible."
-            );
+            String error = "ERROR SEMÁNTICO [Línea " + idleft + "]: Valor incompatible para variable '" + idStr + "' de tipo " + tipoStr + ".";
+            miJuez.erroresSemanticos.add(error);
+            System.err.println(error);
         }
-
         RESULT = null;
-
     
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Asignacion",2, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-4)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Asignacion",3, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-4)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 5: // Exp ::= Exp OP_SUMA Exp 
+          case 8: // Exp ::= Exp OP_SUMA Exp 
             {
               Object RESULT =null;
 		int leftleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).left;
@@ -291,37 +330,21 @@ class CUP$Sintax$actions {
 		int rightright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object right = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
-
-        if (left instanceof Integer
-                && right instanceof Integer) {
-
-            RESULT = (Integer) left
-                    + (Integer) right;
-
-        } else if (left instanceof Number
-                && right instanceof Number) {
-
-            RESULT =
-                ((Number) left).doubleValue()
-                +
-                ((Number) right).doubleValue();
-
+        if (left instanceof Integer && right instanceof Integer) {
+            RESULT = (Integer) left + (Integer) right;
+        } else if (left instanceof Number && right instanceof Number) {
+            RESULT = ((Number) left).doubleValue() + ((Number) right).doubleValue();
         } else {
-
-            System.err.println(
-                "Error de tipos en suma"
-            );
-
+            System.err.println("Error de tipos en suma");
             RESULT = 0;
         }
-
     
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",3, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",5, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 6: // Exp ::= Exp OP_RESTA Exp 
+          case 9: // Exp ::= Exp OP_RESTA Exp 
             {
               Object RESULT =null;
 		int leftleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).left;
@@ -331,37 +354,21 @@ class CUP$Sintax$actions {
 		int rightright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object right = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
-
-        if (left instanceof Integer
-                && right instanceof Integer) {
-
-            RESULT = (Integer) left
-                    - (Integer) right;
-
-        } else if (left instanceof Number
-                && right instanceof Number) {
-
-            RESULT =
-                ((Number) left).doubleValue()
-                -
-                ((Number) right).doubleValue();
-
+        if (left instanceof Integer && right instanceof Integer) {
+            RESULT = (Integer) left - (Integer) right;
+        } else if (left instanceof Number && right instanceof Number) {
+            RESULT = ((Number) left).doubleValue() - ((Number) right).doubleValue();
         } else {
-
-            System.err.println(
-                "Error de tipos en resta"
-            );
-
+            System.err.println("Error de tipos en resta");
             RESULT = 0;
         }
-
     
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",3, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",5, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 7: // Exp ::= Exp OP_MULTIPLICACION Exp 
+          case 10: // Exp ::= Exp OP_MULTIPLICACION Exp 
             {
               Object RESULT =null;
 		int leftleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).left;
@@ -371,37 +378,21 @@ class CUP$Sintax$actions {
 		int rightright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object right = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
-
-        if (left instanceof Integer
-                && right instanceof Integer) {
-
-            RESULT = (Integer) left
-                    * (Integer) right;
-
-        } else if (left instanceof Number
-                && right instanceof Number) {
-
-            RESULT =
-                ((Number) left).doubleValue()
-                *
-                ((Number) right).doubleValue();
-
+        if (left instanceof Integer && right instanceof Integer) {
+            RESULT = (Integer) left * (Integer) right;
+        } else if (left instanceof Number && right instanceof Number) {
+            RESULT = ((Number) left).doubleValue() * ((Number) right).doubleValue();
         } else {
-
-            System.err.println(
-                "Error de tipos en multiplicacion"
-            );
-
+            System.err.println("Error de tipos en multiplicacion");
             RESULT = 0;
         }
-
     
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",3, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",5, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 8: // Exp ::= Exp OP_DIVISION Exp 
+          case 11: // Exp ::= Exp OP_DIVISION Exp 
             {
               Object RESULT =null;
 		int leftleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)).left;
@@ -411,91 +402,62 @@ class CUP$Sintax$actions {
 		int rightright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		Object right = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
-
-        if (left instanceof Integer
-                && right instanceof Integer) {
-
-            RESULT = (Integer) left
-                    / (Integer) right;
-
-        } else if (left instanceof Number
-                && right instanceof Number) {
-
-            RESULT =
-                ((Number) left).doubleValue()
-                /
-                ((Number) right).doubleValue();
-
+        if (left instanceof Integer && right instanceof Integer) {
+            RESULT = (Integer) left / (Integer) right;
+        } else if (left instanceof Number && right instanceof Number) {
+            RESULT = ((Number) left).doubleValue() / ((Number) right).doubleValue();
         } else {
-
-            System.err.println(
-                "Error de tipos en division"
-            );
-
+            System.err.println("Error de tipos en division");
             RESULT = 0;
         }
-
     
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",3, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",5, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 9: // Exp ::= Numero 
+          case 12: // Exp ::= Numero 
             {
               Object RESULT =null;
 		int numleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
 		int numright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		String num = (String)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
-
         String texto = num;
-
         if (texto.contains(".")) {
-
             RESULT = Double.parseDouble(texto);
-
         } else {
-
             RESULT = Integer.parseInt(texto);
         }
-
     
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",3, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",5, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 10: // Exp ::= Identificador 
+          case 13: // Exp ::= Identificador 
             {
               Object RESULT =null;
 		int idleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
 		int idright = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).right;
 		String id = (String)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
-
         String nombre = id;
-
         if (tablaSimbolos.containsKey(nombre)) {
-
             RESULT = tablaSimbolos.get(nombre);
-
         } else {
-
-            System.err.println(
-                "Variable no definida: " + nombre
-            );
-
+            String error = "ERROR SEMÁNTICO [Línea " + idleft + "]: Variable no definida: " + nombre;
+            miJuez.erroresSemanticos.add(error);
+            System.err.println(error);
             RESULT = 0;
         }
-
     
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",3, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",5, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 11: // Exp ::= LITERAL_CADENA 
+          case 14: // Exp ::= LITERAL_CADENA 
             {
               Object RESULT =null;
 		int cadleft = ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()).left;
@@ -504,34 +466,34 @@ class CUP$Sintax$actions {
 		
          RESULT = cad.replace("\"", "");
     
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",3, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",5, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 12: // Tipo ::= TIPO_ENTERO 
+          case 15: // Tipo ::= TIPO_ENTERO 
             {
               String RESULT =null;
 		 RESULT = "entero"; 
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Tipo",4, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Tipo",6, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 13: // Tipo ::= TIPO_REAL 
+          case 16: // Tipo ::= TIPO_REAL 
             {
               String RESULT =null;
 		 RESULT = "real"; 
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Tipo",4, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Tipo",6, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 
           /*. . . . . . . . . . . . . . . . . . . .*/
-          case 14: // Tipo ::= TIPO_CADENA 
+          case 17: // Tipo ::= TIPO_CADENA 
             {
               String RESULT =null;
 		 RESULT = "cadena"; 
-              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Tipo",4, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
+              CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Tipo",6, ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
           return CUP$Sintax$result;
 

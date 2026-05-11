@@ -57,6 +57,8 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 
 "ESCRIBIR"  {lexeme = yytext(); return ESCRIBIR; }
 "LEER"      {lexeme = yytext(); return LEER; }
+"graficar"  {lexeme = yytext(); return GRAFICAR; } // <--- NUEVA INSTRUCCIÓN
+
                     // ========================= TIPOS ===================================
 "Logico"    {lexeme = yytext(); return TIPO_LOGICO; }
 "Entero"    {lexeme = yytext(); return TIPO_ENTERO; }

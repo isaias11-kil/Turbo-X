@@ -52,6 +52,8 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 
 "ESCRIBIR"  { return symbol(sym.ESCRIBIR); }
 "LEER"      { return symbol(sym.LEER); }
+"graficar"  { return symbol(sym.GRAFICAR); }  // <--- ¡AQUÍ ESTÁ TU NUEVA INSTRUCCIÓN!
+
                     // ========================= TIPOS ===================================
 "Logico"    { return symbol(sym.TIPO_LOGICO); }
 "Entero"    { return symbol(sym.TIPO_ENTERO); }

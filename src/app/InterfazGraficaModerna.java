@@ -359,120 +359,64 @@ public class InterfazGraficaModerna extends JFrame {
         String texto = areaEntrada.getText();
         if (texto.isEmpty()) return;
 
+        // Limpiar interfaz
         modeloTabla.setRowCount(0);
         modeloSimbolos.setRowCount(0);
-        tablaDS.limpiar();
         areaResultados.setText("");
+        
+        // Limpiar el cerebro del compilador
+        tablaDS.limpiar();
+        codigo.Sintax.miJuez.limpiar();
 
-        Lexer lexer = new Lexer(new java.io.StringReader(texto));
-
-        String  ultimoId        = null;
-        boolean esperaCOMO      = false;
-        boolean esperaTipo      = false;
-        String  idAsignar       = null;
-        boolean esperaAsignacion = false;
-
+        // 1. FASE LÉXICA (Solo para pintar la tabla de Tokens visual)
         try {
-            int guardia = 0;
+            Lexer lexer = new Lexer(new java.io.StringReader(texto));
             while (true) {
-                if (++guardia > 50000) break;
-
                 Tokens tok = lexer.yylex();
-                if (tok == null) {
-                    areaResultados.append(">>> Análisis finalizado con éxito.\n");
-                    break;
-                }
-
-                String lexema = lexer.yytext();
-                int    linea  = lexer.getLinea();
-                int    col    = lexer.getColumna();
-
-                if (tok != Tokens.COMENTARIO) {
-                    modeloTabla.addRow(new Object[]{linea, tok.toString(), lexema});
-                }
-
-                if (tok == Tokens.ERROR) {
-                    areaResultados.append("Línea: " + linea
-                            + ", Columna: " + col
-                            + ", ERROR LÉXICO: '" + lexema + "'\n");
-                    continue;
-                }
-
-                switch (tok) {
-                    case DEFINIR:
-                        esperaCOMO = true;
-                        ultimoId   = null;
-                        break;
-
-                    case Identificador:
-                        if (esperaCOMO) {
-                            ultimoId   = lexema;
-                            esperaTipo = false;
-                        } else {
-                            tablaDS.agregar(lexema, "Desconocido", "", linea);
-                            idAsignar = lexema;
-                        }
-                        break;
-
-                    case COMO:
-                        if (esperaCOMO && ultimoId != null) {
-                            esperaTipo = true;
-                            esperaCOMO = false;
-                        }
-                        break;
-
-                    case TIPO_ENTERO:
-                    case TIPO_REAL:
-                    case TIPO_LOGICO:
-                    case TIPO_CARACTER:
-                    case TIPO_CADENA:
-                        if (esperaTipo && ultimoId != null) {
-                            tablaDS.agregar(ultimoId, lexema, "", linea);
-                            tablaDS.actualizarTipo(ultimoId, lexema);
-                            esperaTipo = false;
-                            ultimoId   = null;
-                        }
-                        break;
-
-                    case ASIGNACION:
-                        esperaAsignacion = (idAsignar != null);
-                        break;
-
-                    case Numero:
-                    case Cadena:
-                    case VALOR_VERDADERO:
-                    case VALOR_FALSO:
-                        if (esperaAsignacion && idAsignar != null) {
-                            tablaDS.actualizarValor(idAsignar, lexema);
-                            esperaAsignacion = false;
-                            idAsignar        = null;
-                        }
-                        break;
-
-                    default:
-                        esperaAsignacion = false;
-                        break;
+                if (tok == null) break;
+                if (tok != Tokens.COMENTARIO && tok != Tokens.ERROR) {
+                    modeloTabla.addRow(new Object[]{lexer.getLinea(), tok.toString(), lexer.lexeme});
                 }
             }
+        } catch (Exception e) {
+            System.err.println("Error en visualización léxica");
+        }
 
-            List<TablaDeSimbolos.Simbolo> lista = tablaDS.obtenerTodos();
-            int idx = 1;
-            for (TablaDeSimbolos.Simbolo s : lista) {
-                if (!esPalabraReservada(s.getNombre())) {
+        // 2. FASE SINTÁCTICA Y SEMÁNTICA (El verdadero análisis)
+        try {
+            codigo.LexerCup lexerCup = new codigo.LexerCup(new java.io.StringReader(texto));
+            codigo.Sintax sintactico = new codigo.Sintax(lexerCup);
+            
+            sintactico.parse(); // Aquí explota si la sintaxis está mal
+            
+            // Si llega aquí, la sintaxis está bien. Ahora revisamos la semántica:
+            if (!codigo.Sintax.miJuez.erroresSemanticos.isEmpty()) {
+                areaResultados.append(">> ANÁLISIS FINALIZADO CON ERRORES LÓGICOS:\n\n");
+                for (String error : codigo.Sintax.miJuez.erroresSemanticos) {
+                    areaResultados.append(error + "\n");
+                }
+            } else {
+                areaResultados.append(">>> Análisis finalizado con éxito. ¡Sin errores!\n");
+                
+                // Si todo está perfecto, pintamos la tabla de símbolos final en la interfaz
+                List<TablaDeSimbolos.Simbolo> lista = codigo.Sintax.miJuez.obtenerTodos();
+                int idx = 1;
+                for (TablaDeSimbolos.Simbolo s : lista) {
                     modeloSimbolos.addRow(new Object[]{
-                        idx++,
-                        s.getNombre(),
-                        s.getTipo(),
-                        s.getValor().isEmpty() ? "—" : s.getValor(),
-                        s.getLinea(),
+                        idx++, 
+                        s.getNombre(), 
+                        s.getTipo(), 
+                        s.getValor() == null ? "—" : s.getValor().toString(), 
+                        s.getLinea(), 
                         s.getOcurrencias()
                     });
                 }
+                lblContadorSimbolos.setText((idx - 1) + " símbolo(s)");
             }
-            lblContadorSimbolos.setText((idx - 1) + " símbolo(s)");
 
         } catch (Exception e) {
-            areaResultados.append(">>> Error crítico: " + e.getMessage() + "\n");
+            // Si CUP detecta un error de gramática, caerá aquí
+            areaResultados.append("\n>> ERROR DE SINTAXIS DETECTADO. Deteniendo análisis.\n");
         }
     }
 

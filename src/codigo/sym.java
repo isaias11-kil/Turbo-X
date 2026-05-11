@@ -8,52 +8,53 @@ package codigo;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int LITERAL_ENTERO = 41;
-  public static final int OP_MAYOR = 30;
-  public static final int PARENTESIS_CIERRA = 37;
-  public static final int TIPO_REAL = 18;
-  public static final int LITERAL_REAL = 40;
+  public static final int LITERAL_ENTERO = 42;
+  public static final int OP_MAYOR = 31;
+  public static final int PARENTESIS_CIERRA = 38;
+  public static final int TIPO_REAL = 19;
+  public static final int LITERAL_REAL = 41;
   public static final int CONTROL_HACER = 11;
-  public static final int OP_MULTIPLICACION = 26;
-  public static final int VALOR_VERDADERO = 21;
-  public static final int OP_POTENCIA = 28;
+  public static final int OP_MULTIPLICACION = 27;
+  public static final int VALOR_VERDADERO = 22;
+  public static final int OP_POTENCIA = 29;
+  public static final int GRAFICAR = 16;
   public static final int RESERVADA_INICIO = 5;
-  public static final int TIPO_CARACTER = 19;
+  public static final int TIPO_CARACTER = 20;
   public static final int ESCRIBIR = 14;
   public static final int COMO = 13;
-  public static final int OP_DIFERENTE = 33;
-  public static final int LITERAL_CARACTER = 42;
-  public static final int PUNTO_COMA = 34;
+  public static final int OP_DIFERENTE = 34;
+  public static final int LITERAL_CARACTER = 43;
+  public static final int PUNTO_COMA = 35;
   public static final int LITERAL_CADENA = 4;
   public static final int EOF = 0;
-  public static final int OP_DIVISION = 27;
-  public static final int TIPO_ENTERO = 17;
+  public static final int OP_DIVISION = 28;
+  public static final int TIPO_ENTERO = 18;
   public static final int error = 1;
-  public static final int COMA = 35;
-  public static final int COMENTARIO = 43;
-  public static final int OP_RESTA = 25;
+  public static final int COMA = 36;
+  public static final int COMENTARIO = 44;
+  public static final int OP_RESTA = 26;
   public static final int CONTROL_ENTONCES = 8;
   public static final int RESERVADA_FIN = 6;
-  public static final int LLAVE_ABRE = 38;
-  public static final int ERROR = 45;
-  public static final int ASIGNACION = 23;
-  public static final int VALOR_FALSO = 22;
-  public static final int OP_POTENCIA_DOBLE = 29;
-  public static final int COMENTARIO_MULTILINEA = 44;
+  public static final int LLAVE_ABRE = 39;
+  public static final int ERROR = 46;
+  public static final int ASIGNACION = 24;
+  public static final int VALOR_FALSO = 23;
+  public static final int OP_POTENCIA_DOBLE = 30;
+  public static final int COMENTARIO_MULTILINEA = 45;
   public static final int CONTROL_SINO = 9;
   public static final int CONTROL_MIENTRAS = 10;
   public static final int Identificador = 2;
   public static final int LEER = 15;
-  public static final int LLAVE_CIERRA = 39;
+  public static final int LLAVE_CIERRA = 40;
   public static final int DEFINIR = 12;
-  public static final int OP_SUMA = 24;
-  public static final int TIPO_CADENA = 20;
+  public static final int OP_SUMA = 25;
+  public static final int TIPO_CADENA = 21;
   public static final int CONTROL_SI = 7;
   public static final int Numero = 3;
-  public static final int TIPO_LOGICO = 16;
-  public static final int OP_IGUALDAD = 32;
-  public static final int PARENTESIS_ABRE = 36;
-  public static final int OP_MENOR = 31;
+  public static final int TIPO_LOGICO = 17;
+  public static final int OP_IGUALDAD = 33;
+  public static final int PARENTESIS_ABRE = 37;
+  public static final int OP_MENOR = 32;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -71,6 +72,7 @@ public class sym {
   "COMO",
   "ESCRIBIR",
   "LEER",
+  "GRAFICAR",
   "TIPO_LOGICO",
   "TIPO_ENTERO",
   "TIPO_REAL",

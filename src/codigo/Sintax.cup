@@ -1,34 +1,27 @@
 package codigo;
 
 import java_cup.runtime.*;
-import java.util.HashMap;
 import java_cup.parser;
 
-
 parser code {:
+    // ¡Instanciamos tu nueva Tabla de Símbolos "inteligente"!
+    public static TablaDeSimbolos miJuez = new TablaDeSimbolos();
 
-    // GUARDA LOS VALORES DE LAS VARIABLES
-    public static HashMap<String, Object> tablaSimbolos = new HashMap<>();
-
-    // GUARDA EL TIPO DE CADA VARIABLE
-    public static HashMap<String, String> tipos = new HashMap<>();
+    // Capturador de errores sintácticos para que no se caiga el programa
+    public void syntax_error(Symbol s) {
+        System.err.println("Error Sintáctico en la Línea " + (s.left) + " Columna " + (s.right) + ". Texto: \"" + s.value + "\"");
+    }
 
     // PERMITE HACER PRUEBAS DESDE EL TECLADO
-   public static void main(String[] args) throws Exception {
-
-    java.io.Reader reader = new java.io.BufferedReader(
-        new java.io.FileReader("./entrada.txt")
-    );
-
-    LexerCup lexer = new LexerCup(reader);
-
-    Sintax p = new Sintax(lexer);
-
-    p.parse();
-}
-
+    public static void main(String[] args) throws Exception {
+        java.io.Reader reader = new java.io.BufferedReader(
+            new java.io.FileReader("./entrada.txt")
+        );
+        LexerCup lexer = new LexerCup(reader);
+        Sintax p = new Sintax(lexer);
+        p.parse();
+    }
 :};
-
 
 // TERMINALES CON VALOR
 terminal String Identificador;
@@ -41,6 +34,7 @@ terminal CONTROL_SI, CONTROL_ENTONCES, CONTROL_SINO;
 terminal CONTROL_MIENTRAS, CONTROL_HACER;
 terminal DEFINIR, COMO;
 terminal ESCRIBIR, LEER;
+terminal GRAFICAR;  // <--- NUEVA PALABRA RESERVADA
 
 terminal  TIPO_LOGICO;
 terminal  TIPO_ENTERO;
@@ -78,282 +72,159 @@ terminal LITERAL_REAL;
 terminal LITERAL_ENTERO;
 terminal LITERAL_CARACTER;
 
-
 terminal COMENTARIO;
 terminal COMENTARIO_MULTILINEA;
 terminal ERROR;
 
-
 // NO TERMINALES
 non terminal Object S;
-non terminal Object ListaAsignaciones;
+non terminal Object ListaInstrucciones;
+non terminal Object Instruccion;
 non terminal Object Asignacion;
+non terminal Object GraficarInstr; // <--- NUEVA INSTRUCCION
 non terminal Object Exp;
-
 non terminal String Tipo;
-
 
 // PRECEDENCIA DE OPERADORES
 precedence left OP_SUMA, OP_RESTA;
 precedence left OP_MULTIPLICACION, OP_DIVISION;
 
-
 // REGLA INICIAL
 start with S;
 
-
 // INICIO DEL PROGRAMA
-S ::= RESERVADA_INICIO ListaAsignaciones RESERVADA_FIN
+S ::= RESERVADA_INICIO ListaInstrucciones RESERVADA_FIN
 {:
     System.out.println("Analisis completado.");
     RESULT = "Análisis completado";
 :};
 
-
-// LISTA DE ASIGNACIONES
-ListaAsignaciones ::=
-      ListaAsignaciones Asignacion
-    | Asignacion
+// LISTA DE INSTRUCCIONES (Asignaciones o Graficar)
+ListaInstrucciones ::=
+      ListaInstrucciones Instruccion
+    | Instruccion
     ;
 
+// INSTRUCCION GENERAL
+Instruccion ::=
+      Asignacion
+    | GraficarInstr
+    ;
+
+// REGLA PARA GRAFICAR
+GraficarInstr ::=
+    GRAFICAR PARENTESIS_ABRE Identificador:id PARENTESIS_CIERRA PUNTO_COMA
+    {:
+        // El Juez verifica si existe antes de intentar graficarla
+        TablaDeSimbolos.Simbolo s = miJuez.obtenerVariableEstricto(id.toString(), idleft);
+        if (s != null) {
+            System.out.println(">> Acción Semántica: Mandando a graficar la variable '" + s.getNombre() + "'");
+            System.out.println(">> Tipo: " + s.getTipo() + ", Valor base: " + s.getValor());
+        }
+        RESULT = null;
+    :}
+    ;
 
 // ASIGNACIONES
 Asignacion ::=
     Tipo:tipo Identificador:id ASIGNACION Exp:val PUNTO_COMA
     {:
-
-        String tipoStr = tipo;
-        String idStr = id;
-        Object valor = val;
-
-         //pruebas
-        System.out.println("TIPO: " + tipoStr);
-        System.out.println("VALOR: " + valor);
-        System.out.println("CLASE: " + valor.getClass());
-         //***************************************************************
-
-
-        if (tipoStr.equals("entero") && valor instanceof Integer) {
-
-            tablaSimbolos.put(idStr, valor);
-            tipos.put(idStr, tipoStr);
-
-            System.out.println("Asignacion valida: "
-                    + idStr + " = " + valor);
-
-        } else if (tipoStr.equals("real")
-                && valor instanceof Double) {
-
-            tablaSimbolos.put(idStr, valor);
-            tipos.put(idStr, tipoStr);
-
-            System.out.println("Asignacion valida: "
-                    + idStr + " = " + valor);
-
-        } else if (tipoStr.equals("cadena")
-                && valor instanceof String) {
-
-            tablaSimbolos.put(idStr, valor);
-            tipos.put(idStr, tipoStr);
-
-            System.out.println("Asignacion valida: "
-                    + idStr + " = " + valor);
-
-        } else {
-
-            System.err.println(
-                "Error de tipo: valor incompatible."
-            );
-        }
-
+        // El Juez ahora valida duplicados y registra el valor automáticamente
+        miJuez.declararVariable(id.toString(), tipo.toString(), val, idleft);
         RESULT = null;
-
     :};
-
 
 // EXPRESIONES
 Exp ::=
-
     // SUMA
     Exp:left OP_SUMA Exp:right
     {:
-
-        if (left instanceof Integer
-                && right instanceof Integer) {
-
-            RESULT = (Integer) left
-                    + (Integer) right;
-
-        } else if (left instanceof Number
-                && right instanceof Number) {
-
-            RESULT =
-                ((Number) left).doubleValue()
-                +
-                ((Number) right).doubleValue();
-
+        if (left instanceof Integer && right instanceof Integer) {
+            RESULT = (Integer) left + (Integer) right;
+        } else if (left instanceof Number && right instanceof Number) {
+            RESULT = ((Number) left).doubleValue() + ((Number) right).doubleValue();
         } else {
-
-            System.err.println(
-                "Error de tipos en suma"
-            );
-
+            System.err.println("Error de tipos en suma");
             RESULT = 0;
         }
-
     :}
-
-
+    
     // RESTA
     | Exp:left OP_RESTA Exp:right
     {:
-
-        if (left instanceof Integer
-                && right instanceof Integer) {
-
-            RESULT = (Integer) left
-                    - (Integer) right;
-
-        } else if (left instanceof Number
-                && right instanceof Number) {
-
-            RESULT =
-                ((Number) left).doubleValue()
-                -
-                ((Number) right).doubleValue();
-
+        if (left instanceof Integer && right instanceof Integer) {
+            RESULT = (Integer) left - (Integer) right;
+        } else if (left instanceof Number && right instanceof Number) {
+            RESULT = ((Number) left).doubleValue() - ((Number) right).doubleValue();
         } else {
-
-            System.err.println(
-                "Error de tipos en resta"
-            );
-
+            System.err.println("Error de tipos en resta");
             RESULT = 0;
         }
-
     :}
-
 
     // MULTIPLICACION
     | Exp:left OP_MULTIPLICACION Exp:right
     {:
-
-        if (left instanceof Integer
-                && right instanceof Integer) {
-
-            RESULT = (Integer) left
-                    * (Integer) right;
-
-        } else if (left instanceof Number
-                && right instanceof Number) {
-
-            RESULT =
-                ((Number) left).doubleValue()
-                *
-                ((Number) right).doubleValue();
-
+        if (left instanceof Integer && right instanceof Integer) {
+            RESULT = (Integer) left * (Integer) right;
+        } else if (left instanceof Number && right instanceof Number) {
+            RESULT = ((Number) left).doubleValue() * ((Number) right).doubleValue();
         } else {
-
-            System.err.println(
-                "Error de tipos en multiplicacion"
-            );
-
+            System.err.println("Error de tipos en multiplicacion");
             RESULT = 0;
         }
-
     :}
-
 
     // DIVISION
     | Exp:left OP_DIVISION Exp:right
     {:
-
-        if (left instanceof Integer
-                && right instanceof Integer) {
-
-            RESULT = (Integer) left
-                    / (Integer) right;
-
-        } else if (left instanceof Number
-                && right instanceof Number) {
-
-            RESULT =
-                ((Number) left).doubleValue()
-                /
-                ((Number) right).doubleValue();
-
+        if (left instanceof Integer && right instanceof Integer) {
+            RESULT = (Integer) left / (Integer) right;
+        } else if (left instanceof Number && right instanceof Number) {
+            RESULT = ((Number) left).doubleValue() / ((Number) right).doubleValue();
         } else {
-
-            System.err.println(
-                "Error de tipos en division"
-            );
-
+            System.err.println("Error de tipos en division");
             RESULT = 0;
         }
-
     :}
-
 
     // NUMEROS
     | Numero:num
     {:
-
         String texto = num;
-
         if (texto.contains(".")) {
-
             RESULT = Double.parseDouble(texto);
-
         } else {
-
             RESULT = Integer.parseInt(texto);
         }
-
     :}
-
 
     // IDENTIFICADORES
     | Identificador:id
     {:
-
-        String nombre = id;
-
-        if (tablaSimbolos.containsKey(nombre)) {
-
-            RESULT = tablaSimbolos.get(nombre);
-
+        // El Juez verifica si la variable existe
+        TablaDeSimbolos.Simbolo s = miJuez.obtenerVariableEstricto(id.toString(), idleft);
+        
+        if (s != null) {
+            RESULT = s.getValor();
         } else {
-
-            System.err.println(
-                "Variable no definida: " + nombre
-            );
-
-            RESULT = 0;
+            RESULT = 0; // Valor seguro para evitar que el parser explote
         }
-
     :}
-
 
     // CADENAS
     | LITERAL_CADENA:cad
     {:
          RESULT = cad.replace("\"", "");
     :}
-
     ;
-
 
 // TIPOS DE DATOS
 Tipo ::=
-
       TIPO_ENTERO
         {: RESULT = "entero"; :}
-
     | TIPO_REAL
         {: RESULT = "real"; :}
-
     | TIPO_CADENA
         {: RESULT = "cadena"; :}
-
     ;
-

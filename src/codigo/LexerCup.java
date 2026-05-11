@@ -418,7 +418,7 @@ public class LexerCup implements java_cup.runtime.Scanner {
    *
    * @param   in  the java.io.Reader to read input from.
    */
-  LexerCup(java.io.Reader in) {
+  public LexerCup(java.io.Reader in) {
     this.zzReader = in;
   }
 

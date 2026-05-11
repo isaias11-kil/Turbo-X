@@ -389,7 +389,7 @@ public class InterfazGraficaModerna extends JFrame {
             
             sintactico.parse(); // Aquí explota si la sintaxis está mal
             
-            // Si llega aquí, la sintaxis está bien. Ahora revisamos la semántica:
+            // --- AVISOS EN LA CONSOLA ---
             if (!codigo.Sintax.miJuez.erroresSemanticos.isEmpty()) {
                 areaResultados.append(">> ANÁLISIS FINALIZADO CON ERRORES LÓGICOS:\n\n");
                 for (String error : codigo.Sintax.miJuez.erroresSemanticos) {
@@ -397,22 +397,22 @@ public class InterfazGraficaModerna extends JFrame {
                 }
             } else {
                 areaResultados.append(">>> Análisis finalizado con éxito. ¡Sin errores!\n");
-                
-                // Si todo está perfecto, pintamos la tabla de símbolos final en la interfaz
-                List<TablaDeSimbolos.Simbolo> lista = codigo.Sintax.miJuez.obtenerTodos();
-                int idx = 1;
-                for (TablaDeSimbolos.Simbolo s : lista) {
-                    modeloSimbolos.addRow(new Object[]{
-                        idx++, 
-                        s.getNombre(), 
-                        s.getTipo(), 
-                        s.getValor() == null ? "—" : s.getValor().toString(), 
-                        s.getLinea(), 
-                        s.getOcurrencias()
-                    });
-                }
-                lblContadorSimbolos.setText((idx - 1) + " símbolo(s)");
             }
+
+            // --- PINTAR LA TABLA (SIEMPRE SE EJECUTA) ---
+            List<TablaDeSimbolos.Simbolo> lista = codigo.Sintax.miJuez.obtenerTodos();
+            int idx = 1;
+            for (TablaDeSimbolos.Simbolo s : lista) {
+                modeloSimbolos.addRow(new Object[]{
+                    idx++, 
+                    s.getNombre(), 
+                    s.getTipo(), 
+                    s.getValor() == null ? "—" : s.getValor().toString(), 
+                    s.getLinea(), 
+                    s.getOcurrencias()
+                });
+            }
+            lblContadorSimbolos.setText((idx - 1) + " símbolo(s)");
 
         } catch (Exception e) {
             // Si CUP detecta un error de gramática, caerá aquí

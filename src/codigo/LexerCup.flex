@@ -4,6 +4,7 @@ import java_cup.runtime.Symbol;
 %%
 
 %class LexerCup
+%public
 %type Symbol
 %cup
 %line

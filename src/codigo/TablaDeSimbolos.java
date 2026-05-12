@@ -11,7 +11,7 @@ public class TablaDeSimbolos {
     public static class Simbolo {
         private String nombre;
         private String tipo;
-        private Object valor; // <--- CAMBIO 1: Ahora es Object para soportar Integer, Double o String
+        private Object valor; 
         private int    linea;
         private int    ocurrencias;
 
@@ -23,14 +23,12 @@ public class TablaDeSimbolos {
             this.ocurrencias = 1;
         }
 
-        // Getters
         public String getNombre()     { return nombre; }
         public String getTipo()       { return tipo; }
         public Object getValor()      { return valor; }
         public int    getLinea()      { return linea; }
         public int    getOcurrencias(){ return ocurrencias; }
 
-        // Setters
         public void setTipo(String tipo)   { this.tipo  = tipo; }
         public void setValor(Object valor) { this.valor = valor; }
         public void incrementarOcurrencia(){ this.ocurrencias++; }
@@ -42,9 +40,8 @@ public class TablaDeSimbolos {
         }
     }
 
-    // ── Almacén principal y Registro de Errores ──────────────────
     private final Map<String, Simbolo> tabla;
-    public List<String> erroresSemanticos; // <--- CAMBIO 2: Lista para guardar los errores
+    public List<String> erroresSemanticos;
 
     public TablaDeSimbolos() {
         this.tabla = new LinkedHashMap<>();
@@ -52,28 +49,37 @@ public class TablaDeSimbolos {
     }
 
     // ========================================================================
-    // NUEVOS MÉTODOS DEL JUEZ SEMÁNTICO
+    // MÉTODOS DEL JUEZ SEMÁNTICO ACTUALIZADOS
     // ========================================================================
 
     /**
-     * REGLA SEMÁNTICA 1: Declarar sin duplicados.
-     * Úsalo cuando el usuario haga: Entero x <- 5;
+     * REGLA SEMÁNTICA 1 y 3: Declarar sin duplicados y validar tipos.
      */
     public void declararVariable(String nombre, String tipo, Object valor, int linea) {
+        // 1. Verificamos si ya existe (Duplicidad)
         if (tabla.containsKey(nombre)) {
             String error = "ERROR SEMÁNTICO [Línea " + linea + "]: La variable '" + nombre + "' ya fue declarada previamente.";
             erroresSemanticos.add(error);
             System.err.println(error);
-        } else {
+        } 
+        // 2. Verificamos compatibilidad de tipos (Type Checking)
+        else if (!esTipoCompatible(tipo, valor)) {
+            String tipoRecibido = (valor != null) ? valor.getClass().getSimpleName() : "null";
+            // Ajuste de nombres de clase Java a nombres del lenguaje Turbo X²
+            tipoRecibido = tipoRecibido.replace("Integer", "Entero").replace("String", "Cadena");
+            
+            String error = "ERROR SEMÁNTICO [Línea " + linea + "]: Incompatibilidad de tipos. " +
+                           "No se puede asignar un valor de tipo '" + tipoRecibido + "' a la variable '" + nombre + "' de tipo '" + tipo + "'.";
+            erroresSemanticos.add(error);
+            System.err.println(error);
+        } 
+        // 3. Si todo es correcto, se agrega a la tabla
+        else {
             tabla.put(nombre, new Simbolo(nombre, tipo, valor, linea));
             System.out.println(">> Acción Semántica: Variable registrada -> " + tipo + " " + nombre + " = " + valor);
         }
     }
 
-    /**
-     * REGLA SEMÁNTICA 2: Usar variables que existan.
-     * Úsalo en operaciones matemáticas o en graficar(x).
-     */
     public Simbolo obtenerVariableEstricto(String nombre, int linea) {
         if (!tabla.containsKey(nombre)) {
             String error = "ERROR SEMÁNTICO [Línea " + linea + "]: Intento de usar la variable '" + nombre + "' sin haberla definido.";
@@ -84,8 +90,26 @@ public class TablaDeSimbolos {
         return tabla.get(nombre);
     }
 
+    /**
+     * REGLA SEMÁNTICA 3: Validación Estricta de Tipos
+     */
+    private boolean esTipoCompatible(String tipoDeclarado, Object valorReal) {
+        if (valorReal == null) return false;
+        
+        switch (tipoDeclarado.toLowerCase()) {
+            case "entero":
+                return valorReal instanceof Integer;
+            case "real":
+                return valorReal instanceof Double || valorReal instanceof Integer;
+            case "cadena":
+                return valorReal instanceof String;
+            default:
+                return false;
+        }
+    }
+
     // ========================================================================
-    // MÉTODOS ORIGINALES (Mantenidos para no romper tu Interfaz Gráfica)
+    // MÉTODOS COMPLEMENTARIOS
     // ========================================================================
 
     public void agregar(String nombre, String tipo, Object valor, int linea) {

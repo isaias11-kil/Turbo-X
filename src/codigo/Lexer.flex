@@ -11,23 +11,20 @@ import static codigo.Tokens.*;
 %char
 %line
 %column
+%ignorecase
 
 L=[a-zA-Z]
 D=[0-9]
 ID={L}({L}|{D})*
 ESPACIO=[ \t\r\n]+
 
-NUM={D}+(\.{D}+)?      // Enteros y decimales
-
-Caracter = \'[^\']\'
+NUM={D}+(\.{D}+)?
 
 // Comentarios
 COMENTARIO = "//"[^\n]*
 COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 
-
 %{
-
     public String lexeme;
 
     public int getLinea() {
@@ -37,7 +34,6 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
     public int getColumna() {
         return yycolumn + 1;
     }
-
 %}
 
 %%
@@ -57,9 +53,9 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 
 "ESCRIBIR"  {lexeme = yytext(); return ESCRIBIR; }
 "LEER"      {lexeme = yytext(); return LEER; }
-"graficar"  {lexeme = yytext(); return GRAFICAR; } // <--- NUEVA INSTRUCCIÓN
+"graficar"  {lexeme = yytext(); return GRAFICAR; }
 
-                    // ========================= TIPOS ===================================
+// ========================= TIPOS ===================================
 "Logico"    {lexeme = yytext(); return TIPO_LOGICO; }
 "Entero"    {lexeme = yytext(); return TIPO_ENTERO; }
 "Real"      {lexeme = yytext(); return TIPO_REAL; }
@@ -68,9 +64,9 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 
 "Verdadero" {lexeme = yytext(); return VALOR_VERDADERO; }
 "Falso"     {lexeme = yytext(); return VALOR_FALSO; }
-                    //==========================OPERADORES===================================
-"<-"        {lexeme = yytext(); return ASIGNACION; }
 
+//==========================OPERADORES===================================
+"<-"        {lexeme = yytext(); return ASIGNACION; }
 "+"         {lexeme = yytext(); return OP_SUMA; }
 "-"         {lexeme = yytext(); return OP_RESTA; }
 "**"        {lexeme = yytext(); return OP_POTENCIA_DOBLE; }
@@ -79,52 +75,46 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 "^"         {lexeme = yytext(); return OP_POTENCIA; }
 ">"         {lexeme = yytext(); return OP_MAYOR; }
 "<"         {lexeme = yytext(); return OP_MENOR; }
-
 "=="        {lexeme = yytext(); return OP_IGUALDAD; }
 "!="        {lexeme = yytext(); return OP_DIFERENTE; }
 
-                    //==========================SIGNOS=============================================
+//==========================SIGNOS=============================================
 ";"         {lexeme = yytext(); return PUNTO_COMA; }
 ","         {lexeme = yytext(); return COMA; }
-
 "("         {lexeme = yytext(); return PARENTESIS_ABRE; }
 ")"         {lexeme = yytext(); return PARENTESIS_CIERRA; }
-
 "{"         {lexeme = yytext(); return LLAVE_ABRE; }
 "}"         {lexeme = yytext(); return LLAVE_CIERRA; }
-//******************************8
-                    //==========================LITERALES==================================================
-                    //==========================Cadenas de texto===========================
+
+//==========================LITERALES==================================================
+
+// REGLA CORREGIDA: Se devuelve 'Cadena' para evitar conflictos con el Enum Tokens
+\'[^\']\' {lexeme = yytext(); return Cadena; }
+
+//==========================Cadenas de texto===========================
 \"(\\.|[^\"\n])*\" {lexeme = yytext(); return Cadena; }
 \`[^`]*\` {lexeme = yytext(); return Cadena; }
 
-                    //==========================Identificadores============================
+//==========================Identificadores============================
 {ID} {lexeme = yytext(); System.out.println("TOKEN: ID -> " + lexeme); return Identificador; }
 
-                    //==========================Números (incluyendo flotantes)============================
+//==========================Números============================
 {NUM} {lexeme = yytext();  System.out.println("TOKEN: NUM-> " + lexeme); return Numero; }
 
-
-                    //==========================Ignorar espacios y comentarios==================
-{ESPACIO}  {/*Ingnorar los espacios */}
+//==========================Ignorar espacios y comentarios==================
+{ESPACIO}  {/*Ignorar*/}
 {COMENTARIO}            { lexeme = yytext(); return COMENTARIO; }
 {COMENTARIO_MULTILINEA} { lexeme = yytext(); return COMENTARIO; }             
 
-
-                    //==========================Manejo de errores============
-          
-    
-     . {
-            lexeme = yytext();
-            System.err.println("Símbolo no reconocido: " + yytext()
-                + " en línea " + getLinea()
-                + ", columna " + getColumna());
-            return ERROR;     
-        }
-
-
+//==========================Manejo de errores============
+. {
+    lexeme = yytext();
+    System.err.println("Símbolo no reconocido: " + yytext()
+        + " en línea " + getLinea()
+        + ", columna " + getColumna());
+    return ERROR;     
+}
 
 <<EOF>> {
-    //System.out.println("End Of File alcanzado");
     return null;
 }

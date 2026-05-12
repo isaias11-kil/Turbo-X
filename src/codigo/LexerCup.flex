@@ -4,10 +4,12 @@ import java_cup.runtime.Symbol;
 %%
 
 %class LexerCup
+%public
 %type Symbol
 %cup
 %line
 %column
+%ignorecase  // <--- ¡NUEVO! Hace que ignore mayúsculas y minúsculas
 
 L=[a-zA-Z]
 D=[0-9]
@@ -34,6 +36,20 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 %}
 
 %%
+/* =====================================================
+   COMENTARIOS Y ESPACIOS IGNORADOS
+   ===================================================== */
+
+// Espacios, tabs y saltos de línea
+[ \t\r\n]+                { /* Ignorar espacios */ }
+
+// Comentarios de una línea
+"//".* { /* Ignorar comentario */ }
+
+// Comentarios multilínea
+"/*"([^*]|[\r\n]|(\*+([^*/]|[\r\n])))*"*"+"/"
+                          { /* Ignorar comentario */ }
+
 //PALABRAS CLAVE
 "INICIO"    { return symbol(sym.RESERVADA_INICIO); }
 "FIN"       { return symbol(sym.RESERVADA_FIN); }            
@@ -85,7 +101,7 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 
 "{"         { return symbol(sym.LLAVE_ABRE); }
 "}"         { return symbol(sym.LLAVE_CIERRA); }
-//******************************8
+
                     //==========================LITERALES==================================================
                     //==========================Cadenas de texto===========================
 \"(\\.|[^\"\n])*\" {
@@ -93,6 +109,15 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 }
 
 \`[^`]*\` {
+    return symbol(sym.LITERAL_CADENA, yytext());
+}
+//==========================LITERALES==================================================
+                    
+// --- NUEVO: REGLA PARA CARACTERES ('a') ---
+\'[^\']\' { return symbol(sym.LITERAL_CARACTER, yytext()); }
+
+                    //==========================Cadenas de texto===========================
+\"(\\.|[^\"\n])*\" {
     return symbol(sym.LITERAL_CADENA, yytext());
 }
                     //==========================Identificadores============================
@@ -122,6 +147,5 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 
 
 <<EOF>> {
-    //System.out.println("End Of File alcanzado");
     return null;
 }

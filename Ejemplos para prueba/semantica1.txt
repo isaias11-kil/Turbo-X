@@ -1,0 +1,43 @@
+INICIO
+    // --- DECLARACIONES BASE ---
+    Entero numero <- 10;
+    Cadena saludo <- "Turbo X";
+    Logico activo <- Verdadero;
+
+    //  REGLA 4: Casting Implícito (El Entero 100 se guarda como Real 100.0)
+    Real gravedad <- 100;
+
+    //  REGLA 1: Prevención de Duplicados (Lanza error, pero 'numero' sobrevive)
+    Entero numero <- 99;
+
+    //  REGLA 3: Incompatibilidad de Tipos
+    Entero edad <- "Veinte";
+
+    //  REGLA 2: Variables Fantasma
+    graficar(variableMisteriosa);
+
+    // REGLA 5: Coherencia Matemática (Sumar Entero + Cadena)
+    Entero calculoRoto <- numero + saludo;
+
+    //  REGLA 6: División entre Cero
+    Real infinito <- 50 / 0;
+
+    //  REGLA 7: Condiciones Estrictas (Recibe Cadena en vez de Lógico)
+    SI (saludo) ENTONCES {
+        graficar(gravedad);
+    }
+
+    //  REGLA 8: Ámbitos de Variables (Scopes) - Prueba de Éxito
+    SI (activo) ENTONCES {
+        // Nace una variable local
+        Entero temporal <- 777;
+        
+        // El bloque interno puede ver hacia afuera (grafica el 10)
+        graficar(numero); 
+    }
+
+    //  REGLA 8: Ámbitos de Variables (Scopes) - Fallo provocado
+    // La variable 'temporal' ya fue destruida al cerrarse la llave de arriba
+    graficar(temporal);
+
+FIN

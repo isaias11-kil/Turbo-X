@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . /app
 
 # 4. Compilar los archivos Java manualmente (para Linux)
-RUN javac -cp "lib/jflex-full-1.9.1.jar" -d build src/codigo/*.java
+RUN javac -cp "lib/*" -d build src/codigo/*.java src/app/*.java
 
 # 5. Comando que se ejecutará por defecto al iniciar el contenedor
-CMD ["java", "-cp", "build:lib/jflex-full-1.9.1.jar", "codigo.Main"]
+CMD ["java", "-cp", "build:lib/*", "codigo.Main"]

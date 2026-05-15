@@ -397,6 +397,9 @@ public class InterfazGraficaModerna extends JFrame {
                 }
             } else {
                 areaResultados.append(">>> Análisis finalizado con éxito. ¡Sin errores!\n");
+                if (texto.toLowerCase().contains("graficar")) {
+                    areaResultados.append(">> Motor Rol 3: se ejecutaron solicitudes de gráfica (JFreeChart) cuando correspondía.\n");
+                }
             }
 
             // --- PINTAR LA TABLA (SIEMPRE SE EJECUTA) ---
@@ -444,7 +447,7 @@ public class InterfazGraficaModerna extends JFrame {
         switch (nombre.toUpperCase()) {
             case "INICIO": case "FIN": case "SI": case "ENTONCES": case "SINO":
             case "MIENTRAS": case "HACER": case "DEFINIR": case "COMO":
-            case "ESCRIBIR": case "LEER": case "VERDADERO": case "FALSO":
+            case "ESCRIBIR": case "LEER": case "GRAFICAR": case "VERDADERO": case "FALSO":
                 return true;
             default: return false;
         }

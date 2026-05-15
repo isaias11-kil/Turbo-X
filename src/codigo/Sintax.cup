@@ -85,7 +85,9 @@ GraficarInstr ::=
     GRAFICAR PARENTESIS_ABRE Identificador:id PARENTESIS_CIERRA PUNTO_COMA
     {:
         TablaDeSimbolos.Simbolo s = miJuez.obtenerVariableEstricto(id.toString(), idleft);
-        if (s != null) { System.out.println(">> Acción Semántica: Mandando a graficar '" + s.getNombre() + "'"); }
+        if (s != null) {
+            MotorEjecucion.solicitarGrafica(miJuez, s, idleft);
+        }
         RESULT = null;
     :}
     ;

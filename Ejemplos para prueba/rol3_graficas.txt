@@ -1,0 +1,13 @@
+INICIO
+    // Serie para barras: lista separada por comas
+    Cadena ventas <- "12, 18, 7, 22";
+    graficar(ventas);
+
+    // Misma sintaxis graficar(id); con prefijo LINEAS: para gráfica de líneas
+    Cadena tendencia <- "LINEAS:5, 9, 4, 11, 8";
+    graficar(tendencia);
+
+    // Un solo valor numérico (barras con una categoría)
+    Entero meta <- 100;
+    graficar(meta);
+FIN

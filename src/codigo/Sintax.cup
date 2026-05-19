@@ -103,29 +103,53 @@ Exp ::=
     Exp:left OP_SUMA Exp:right
     {:
         if (left instanceof Number && right instanceof Number) {
-            RESULT = ((Number) left).doubleValue() + ((Number) right).doubleValue();
+            if (left instanceof Integer && right instanceof Integer) {
+                RESULT = ((Integer) left) + ((Integer) right);
+            } else {
+                RESULT = ((Number) left).doubleValue() + ((Number) right).doubleValue();
+            }
         } else { miJuez.registrarErrorSemantico("ERROR SEMÁNTICO: No se pueden sumar esos tipos."); RESULT = 0; }
     :}
     | Exp:left OP_RESTA Exp:right
     {:
         if (left instanceof Number && right instanceof Number) {
-            RESULT = ((Number) left).doubleValue() - ((Number) right).doubleValue();
+            if (left instanceof Integer && right instanceof Integer) {
+                RESULT = ((Integer) left) - ((Integer) right);
+            } else {
+                RESULT = ((Number) left).doubleValue() - ((Number) right).doubleValue();
+            }
         } else { miJuez.registrarErrorSemantico("ERROR SEMÁNTICO: Operación matemática inválida."); RESULT = 0; }
     :}
     | Exp:left OP_MULTIPLICACION Exp:right
     {:
         if (left instanceof Number && right instanceof Number) {
-            RESULT = ((Number) left).doubleValue() * ((Number) right).doubleValue();
+            if (left instanceof Integer && right instanceof Integer) {
+                RESULT = ((Integer) left) * ((Integer) right);
+            } else {
+                RESULT = ((Number) left).doubleValue() * ((Number) right).doubleValue();
+            }
         } else { miJuez.registrarErrorSemantico("ERROR SEMÁNTICO: Operación matemática inválida."); RESULT = 0; }
     :}
     | Exp:left OP_DIVISION Exp:right
     {:
         if (left instanceof Number && right instanceof Number) {
-            double divisor = ((Number) right).doubleValue();
-            if (divisor == 0) {
-                miJuez.registrarErrorSemantico("ERROR SEMÁNTICO [Línea " + rightleft + "]: División entre cero.");
-                RESULT = 0; 
-            } else { RESULT = ((Number) left).doubleValue() / divisor; }
+            if (left instanceof Integer && right instanceof Integer) {
+                int divisor = (Integer) right;
+                if (divisor == 0) {
+                    miJuez.registrarErrorSemantico("ERROR SEMÁNTICO [Línea " + rightleft + "]: División entre cero.");
+                    RESULT = 0;
+                } else {
+                    RESULT = ((Integer) left) / divisor;
+                }
+            } else {
+                double divisor = ((Number) right).doubleValue();
+                if (divisor == 0) {
+                    miJuez.registrarErrorSemantico("ERROR SEMÁNTICO [Línea " + rightleft + "]: División entre cero.");
+                    RESULT = 0;
+                } else {
+                    RESULT = ((Number) left).doubleValue() / divisor;
+                }
+            }
         } else { miJuez.registrarErrorSemantico("ERROR SEMÁNTICO: Operación matemática inválida."); RESULT = 0; }
     :}
     | Exp:left OP_MAYOR Exp:right

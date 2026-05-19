@@ -226,7 +226,7 @@ public class Sintax extends java_cup.runtime.lr_parser {
 
     public void syntax_error(Symbol s) {
         System.err.println(
-            "ERROR SINT�?CTICO\n" +
+            "ERROR SINTÁCTICO\n" +
             "Línea: " + s.left +
             " | Columna: " + s.right +
             " | Token inesperado: " + s.value
@@ -459,8 +459,12 @@ class CUP$Sintax$actions {
 		Object right = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
         if (left instanceof Number && right instanceof Number) {
-            RESULT = ((Number) left).doubleValue() + ((Number) right).doubleValue();
-        } else { miJuez.registrarErrorSemantico("ERROR SEM�?NTICO: No se pueden sumar esos tipos."); RESULT = 0; }
+            if (left instanceof Integer && right instanceof Integer) {
+                RESULT = ((Integer) left) + ((Integer) right);
+            } else {
+                RESULT = ((Number) left).doubleValue() + ((Number) right).doubleValue();
+            }
+        } else { miJuez.registrarErrorSemantico("ERROR SEMÁNTICO: No se pueden sumar esos tipos."); RESULT = 0; }
     
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",7, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
@@ -478,8 +482,12 @@ class CUP$Sintax$actions {
 		Object right = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
         if (left instanceof Number && right instanceof Number) {
-            RESULT = ((Number) left).doubleValue() - ((Number) right).doubleValue();
-        } else { miJuez.registrarErrorSemantico("ERROR SEM�?NTICO: Operación matemática inválida."); RESULT = 0; }
+            if (left instanceof Integer && right instanceof Integer) {
+                RESULT = ((Integer) left) - ((Integer) right);
+            } else {
+                RESULT = ((Number) left).doubleValue() - ((Number) right).doubleValue();
+            }
+        } else { miJuez.registrarErrorSemantico("ERROR SEMÁNTICO: Operación matemática inválida."); RESULT = 0; }
     
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",7, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
@@ -497,8 +505,12 @@ class CUP$Sintax$actions {
 		Object right = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
         if (left instanceof Number && right instanceof Number) {
-            RESULT = ((Number) left).doubleValue() * ((Number) right).doubleValue();
-        } else { miJuez.registrarErrorSemantico("ERROR SEM�?NTICO: Operación matemática inválida."); RESULT = 0; }
+            if (left instanceof Integer && right instanceof Integer) {
+                RESULT = ((Integer) left) * ((Integer) right);
+            } else {
+                RESULT = ((Number) left).doubleValue() * ((Number) right).doubleValue();
+            }
+        } else { miJuez.registrarErrorSemantico("ERROR SEMÁNTICO: Operación matemática inválida."); RESULT = 0; }
     
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",7, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }
@@ -516,12 +528,24 @@ class CUP$Sintax$actions {
 		Object right = (Object)((java_cup.runtime.Symbol) CUP$Sintax$stack.peek()).value;
 		
         if (left instanceof Number && right instanceof Number) {
-            double divisor = ((Number) right).doubleValue();
-            if (divisor == 0) {
-                miJuez.registrarErrorSemantico("ERROR SEM�?NTICO [Línea " + rightleft + "]: División entre cero.");
-                RESULT = 0; 
-            } else { RESULT = ((Number) left).doubleValue() / divisor; }
-        } else { miJuez.registrarErrorSemantico("ERROR SEM�?NTICO: Operación matemática inválida."); RESULT = 0; }
+            if (left instanceof Integer && right instanceof Integer) {
+                int divisor = (Integer) right;
+                if (divisor == 0) {
+                    miJuez.registrarErrorSemantico("ERROR SEMÁNTICO [Línea " + rightleft + "]: División entre cero.");
+                    RESULT = 0;
+                } else {
+                    RESULT = ((Integer) left) / divisor;
+                }
+            } else {
+                double divisor = ((Number) right).doubleValue();
+                if (divisor == 0) {
+                    miJuez.registrarErrorSemantico("ERROR SEMÁNTICO [Línea " + rightleft + "]: División entre cero.");
+                    RESULT = 0;
+                } else {
+                    RESULT = ((Number) left).doubleValue() / divisor;
+                }
+            }
+        } else { miJuez.registrarErrorSemantico("ERROR SEMÁNTICO: Operación matemática inválida."); RESULT = 0; }
     
               CUP$Sintax$result = parser.getSymbolFactory().newSymbol("Exp",7, ((java_cup.runtime.Symbol)CUP$Sintax$stack.elementAt(CUP$Sintax$top-2)), ((java_cup.runtime.Symbol)CUP$Sintax$stack.peek()), RESULT);
             }

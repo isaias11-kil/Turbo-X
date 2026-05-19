@@ -18,6 +18,7 @@ public class sym {
   public static final int VALOR_VERDADERO = 22;
   public static final int OP_POTENCIA = 29;
   public static final int GRAFICAR = 16;
+  public static final int SIGNO_IGUAL = 47;
   public static final int RESERVADA_INICIO = 5;
   public static final int TIPO_CARACTER = 20;
   public static final int ESCRIBIR = 14;
@@ -102,7 +103,8 @@ public class sym {
   "LITERAL_CARACTER",
   "COMENTARIO",
   "COMENTARIO_MULTILINEA",
-  "ERROR"
+  "ERROR",
+  "SIGNO_IGUAL"
   };
 }
 

@@ -45,9 +45,11 @@ non terminal Object SentenciaSi, SentenciaMientras, Exp;
 non terminal Object AbreBloque, CierraBloque; 
 non terminal String Tipo;
 
+// --- JERARQUÍA MATEMÁTICA CORREGIDA ---
 precedence left OP_MAYOR, OP_MENOR, OP_IGUALDAD, OP_DIFERENTE;
 precedence left OP_SUMA, OP_RESTA;
 precedence left OP_MULTIPLICACION, OP_DIVISION;
+precedence left OP_POTENCIA, OP_POTENCIA_DOBLE; // <--- ¡AQUÍ ESTÁ LA LÍNEA QUE FALTABA!
 
 start with S;
 

@@ -65,11 +65,12 @@ ListaInstrucciones ::=
     ;
 
 Instruccion ::=
+    | FuncionInstr
       Asignacion
     | GraficarInstr
     | SentenciaSi
     | SentenciaMientras
-    | FuncionInstr
+    
     | error PUNTO_COMA    {: System.out.println(">> JCUP: Basura ignorada hasta el ';'"); :}
     | error LLAVE_CIERRA  {: System.out.println(">> JCUP: Basura ignorada hasta el '}'"); :}
     ;

@@ -1,0 +1,34 @@
+INICIO
+    // --- FASE II: DECLARACIÓN Y TIPOS (15 pts) ---
+    Entero contador <- 0;
+    Real temperatura <- 36.5;
+    Cadena mensaje <- "Turbo X - Prueba Final";
+    Logico activo <- Verdadero;
+
+    // --- FASE II: CONTROL DE FLUJO Y ANIDAMIENTO (10 pts) ---
+    MIENTRAS (contador < 2) HACER {
+        SI (activo == Verdadero) ENTONCES {
+            // Anidamiento funcional
+            Entero calculo <- contador + 10;
+        } SINO {
+            // Error semántico esperado si intentas asignar Real a Entero
+            // Entero errorSemantico <- temperatura; 
+        }
+        contador <- contador + 1;
+    }
+
+    // --- FASE III: PROCESAMIENTO DE ECUACIONES Y URL (10 pts) ---
+    // El compilador debe procesar esto y mostrar la URL en consola
+    f(x) = x ^ 2 + 5;
+    g(x) = x * 3 - 2;
+
+    // --- FASE II: RECUPERACIÓN DE ERRORES (10 pts) ---
+    // Esta línea tiene basura, el compilador debe saltarla y seguir
+    Entero malEscrito @ 55;
+
+    // --- FASE III: GRAFICACIÓN LOCAL (JFreeChart) ---
+    graficar(contador);
+    graficar(temperatura);
+
+    imprimir("Prueba de integración total completada correctamente");
+FIN

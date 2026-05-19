@@ -90,6 +90,7 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 "<"         { return symbol(sym.OP_MENOR); }
 
 "=="        { return symbol(sym.OP_IGUALDAD); }
+"=" { return symbol(sym.SIGNO_IGUAL); }
 "!="        { return symbol(sym.OP_DIFERENTE); }
 
                     //==========================SIGNOS=============================================
@@ -149,3 +150,4 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 <<EOF>> {
     return null;
 }
+

@@ -1,0 +1,147 @@
+// ======================================================
+// PROYECTO DE PRUEBA COMPLETA - TURBO X²
+// ======================================================
+
+INICIO
+
+    // ==================================================
+    // DECLARACION DE VARIABLES
+    // ==================================================
+
+    Entero edad <- 24;
+    Entero contador <- 0;
+    Entero base <- 2;
+
+    Real temperatura <- 36.5;
+    Real promedio <- 0;
+    Real resultadoPotencia <- 0;
+
+    Cadena nombreUsuario <- "Kevin";
+    Cadena mensaje <- "Bienvenido a Turbo X²";
+
+    Logico sistemaActivo <- Verdadero;
+    Logico accesoPermitido <- Falso;
+
+    Caracter letra <- 'A';
+    Caracter numeroCaracter <- '7';
+
+    // ==================================================
+    // IMPRESION DE VARIABLES
+    // ==================================================
+
+    imprimir(nombreUsuario);
+    imprimir(mensaje);
+    imprimir(edad);
+    imprimir(temperatura);
+    imprimir(letra);
+
+    // ==================================================
+    // OPERACIONES MATEMATICAS
+    // ==================================================
+
+    Entero suma <- 10 + 5;
+    Entero resta <- 20 - 8;
+    Entero multiplicacion <- 4 * 3;
+    Real division <- 100 / 5;
+
+    // POTENCIA
+    resultadoPotencia <- base ^ 3;
+
+    imprimir(suma);
+    imprimir(resta);
+    imprimir(multiplicacion);
+    imprimir(division);
+    imprimir(resultadoPotencia);
+
+    // ==================================================
+    // CASTING IMPLICITO
+    // Entero -> Real
+    // ==================================================
+
+    promedio <- 10;
+
+    imprimir(promedio);
+
+    // ==================================================
+    // OPERADORES RELACIONALES
+    // ==================================================
+
+    Logico esMayor <- edad > 18;
+    Logico esMenor <- edad < 50;
+    Logico esIgual <- edad == 24;
+    Logico esDiferente <- edad != 30;
+
+    imprimir(esMayor);
+    imprimir(esMenor);
+    imprimir(esIgual);
+    imprimir(esDiferente);
+
+    // ==================================================
+    // ESTRUCTURA SI / SINO
+    // ==================================================
+
+    SI (edad > 18) ENTONCES {
+
+        imprimir("Acceso permitido");
+
+        // ==============================================
+        // SCOPE LOCAL
+        // ==============================================
+
+        Entero variableLocal <- 999;
+
+        imprimir(variableLocal);
+
+        accesoPermitido <- Verdadero;
+
+    } SINO {
+
+        imprimir("Acceso denegado");
+
+    }
+
+    // ==================================================
+    // CICLO MIENTRAS
+    // ==================================================
+
+    MIENTRAS (contador < 5) HACER {
+
+        imprimir(contador);
+
+        contador <- contador + 1;
+
+    }
+
+    // ==================================================
+    // OPERACIONES COMBINADAS
+    // ==================================================
+
+    Real formula <- (10 + 5) * 2 / 5;
+
+    imprimir(formula);
+
+    // ==================================================
+    // FUNCION NATIVA GRAFICAR
+    // ==================================================
+
+    graficar(edad);
+    graficar(temperatura);
+    graficar(resultadoPotencia);
+
+    // ==================================================
+    // COMENTARIO MULTILINEA
+    // ==================================================
+
+    /*
+        Este bloque sirve para probar
+        comentarios multilínea
+        dentro del compilador Turbo X²
+    */
+
+    // ==================================================
+    // PRUEBA FINAL
+    // ==================================================
+
+    imprimir("Programa ejecutado correctamente");
+
+FIN

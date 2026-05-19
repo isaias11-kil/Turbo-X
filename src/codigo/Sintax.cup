@@ -6,20 +6,23 @@ import java_cup.parser;
 parser code {:
     public static TablaDeSimbolos miJuez = new TablaDeSimbolos();
 
+    // 1. Atrapa el error y avisa dónde fue (Recuperable)
     public void syntax_error(Symbol s) {
-        System.err.println(
-            "ERROR SINTÁCTICO\n" +
-            "Línea: " + s.left +
-            " | Columna: " + s.right +
-            " | Token inesperado: " + s.value
-        );
+        String lexema = (s.value != null) ? s.value.toString() : "Fin de código";
+        System.err.println("ERROR SINTÁCTICO [Línea " + s.left + "]: Token inesperado '" + lexema + "'. Intentando recuperar...");
+    }
+
+    // 2. EVITA QUE EL COMPILADOR MUERA (Sobrescribe el error fatal)
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception {
+        String lexema = (s.value != null) ? s.value.toString() : "Fin de código";
+        System.err.println("ALERTA SINTÁCTICA [Línea " + s.left + "]: Sentencia muy dañada cerca de '" + lexema + "'. Se ignorará este bloque.");
     }
 
     public static void main(String[] args) throws Exception {
         java.io.Reader reader = new java.io.BufferedReader(new java.io.FileReader("./entrada.txt"));
         LexerCup lexer = new LexerCup(reader);
         Sintax p = new Sintax(lexer);
-        p.parse();
+        p.parse(); // El parse ahora continuará aunque haya errores
     }
 :};
 
@@ -33,10 +36,13 @@ terminal OP_SUMA, OP_RESTA, OP_MULTIPLICACION, OP_DIVISION, OP_POTENCIA, OP_POTE
 terminal OP_MAYOR, OP_MENOR, OP_IGUALDAD, OP_DIFERENTE;
 terminal PUNTO_COMA, COMA, PARENTESIS_ABRE, PARENTESIS_CIERRA, LLAVE_ABRE, LLAVE_CIERRA;
 terminal LITERAL_REAL, LITERAL_ENTERO, LITERAL_CARACTER, COMENTARIO, COMENTARIO_MULTILINEA, ERROR;
+terminal SIGNO_IGUAL;
 
+non terminal Object FuncionInstr;
+non terminal String ExpString;
 non terminal Object S, ListaInstrucciones, Instruccion, Asignacion, GraficarInstr; 
 non terminal Object SentenciaSi, SentenciaMientras, Exp;
-non terminal Object AbreBloque, CierraBloque; // <--- NUEVOS PARA SCOPES
+non terminal Object AbreBloque, CierraBloque; 
 non terminal String Tipo;
 
 precedence left OP_MAYOR, OP_MENOR, OP_IGUALDAD, OP_DIFERENTE;
@@ -61,14 +67,14 @@ Instruccion ::=
     | GraficarInstr
     | SentenciaSi
     | SentenciaMientras
-    | error PUNTO_COMA
+    | FuncionInstr
+    | error PUNTO_COMA    {: System.out.println(">> JCUP: Basura ignorada hasta el ';'"); :}
+    | error LLAVE_CIERRA  {: System.out.println(">> JCUP: Basura ignorada hasta el '}'"); :}
     ;
 
-// --- REGLAS DE SCOPE: Avisan al Juez cuándo crear/destruir tablas locales ---
 AbreBloque ::= LLAVE_ABRE {: miJuez.entrarBloque(); :} ;
 CierraBloque ::= LLAVE_CIERRA {: miJuez.salirBloque(); :} ;
 
-// --- BLOQUES ACTUALIZADOS CON SCOPES ---
 SentenciaSi ::=
     CONTROL_SI PARENTESIS_ABRE Exp:cond PARENTESIS_CIERRA CONTROL_ENTONCES AbreBloque ListaInstrucciones CierraBloque
     {: miJuez.validarCondicionBooleana(cond, condleft, "SI"); :}
@@ -100,42 +106,42 @@ Asignacion ::=
     :};
 
 Exp ::=
-    Exp:left OP_SUMA Exp:right
+    Exp:e1 OP_SUMA Exp:e2
     {:
-        if (left instanceof Number && right instanceof Number) {
-            RESULT = ((Number) left).doubleValue() + ((Number) right).doubleValue();
+        if (e1 instanceof Number && e2 instanceof Number) {
+            RESULT = ((Number) e1).doubleValue() + ((Number) e2).doubleValue();
         } else { miJuez.registrarErrorSemantico("ERROR SEMÁNTICO: No se pueden sumar esos tipos."); RESULT = 0; }
     :}
-    | Exp:left OP_RESTA Exp:right
+    | Exp:e1 OP_RESTA Exp:e2
     {:
-        if (left instanceof Number && right instanceof Number) {
-            RESULT = ((Number) left).doubleValue() - ((Number) right).doubleValue();
+        if (e1 instanceof Number && e2 instanceof Number) {
+            RESULT = ((Number) e1).doubleValue() - ((Number) e2).doubleValue();
         } else { miJuez.registrarErrorSemantico("ERROR SEMÁNTICO: Operación matemática inválida."); RESULT = 0; }
     :}
-    | Exp:left OP_MULTIPLICACION Exp:right
+    | Exp:e1 OP_MULTIPLICACION Exp:e2
     {:
-        if (left instanceof Number && right instanceof Number) {
-            RESULT = ((Number) left).doubleValue() * ((Number) right).doubleValue();
+        if (e1 instanceof Number && e2 instanceof Number) {
+            RESULT = ((Number) e1).doubleValue() * ((Number) e2).doubleValue();
         } else { miJuez.registrarErrorSemantico("ERROR SEMÁNTICO: Operación matemática inválida."); RESULT = 0; }
     :}
-    | Exp:left OP_DIVISION Exp:right
+    | Exp:e1 OP_DIVISION Exp:e2
     {:
-        if (left instanceof Number && right instanceof Number) {
-            double divisor = ((Number) right).doubleValue();
+        if (e1 instanceof Number && e2 instanceof Number) {
+            double divisor = ((Number) e2).doubleValue();
             if (divisor == 0) {
-                miJuez.registrarErrorSemantico("ERROR SEMÁNTICO [Línea " + rightleft + "]: División entre cero.");
+                miJuez.registrarErrorSemantico("ERROR SEMÁNTICO [Línea " + e2left + "]: División entre cero.");
                 RESULT = 0; 
-            } else { RESULT = ((Number) left).doubleValue() / divisor; }
+            } else { RESULT = ((Number) e1).doubleValue() / divisor; }
         } else { miJuez.registrarErrorSemantico("ERROR SEMÁNTICO: Operación matemática inválida."); RESULT = 0; }
     :}
-    | Exp:left OP_MAYOR Exp:right
-    {: RESULT = (left instanceof Number && right instanceof Number) ? ((Number)left).doubleValue() > ((Number)right).doubleValue() : false; :}
-    | Exp:left OP_MENOR Exp:right
-    {: RESULT = (left instanceof Number && right instanceof Number) ? ((Number)left).doubleValue() < ((Number)right).doubleValue() : false; :}
-    | Exp:left OP_IGUALDAD Exp:right
-    {: RESULT = (left != null && right != null) ? left.equals(right) : false; :}
-    | Exp:left OP_DIFERENTE Exp:right
-    {: RESULT = (left != null && right != null) ? !left.equals(right) : false; :}
+    | Exp:e1 OP_MAYOR Exp:e2
+    {: RESULT = (e1 instanceof Number && e2 instanceof Number) ? ((Number)e1).doubleValue() > ((Number)e2).doubleValue() : false; :}
+    | Exp:e1 OP_MENOR Exp:e2
+    {: RESULT = (e1 instanceof Number && e2 instanceof Number) ? ((Number)e1).doubleValue() < ((Number)e2).doubleValue() : false; :}
+    | Exp:e1 OP_IGUALDAD Exp:e2
+    {: RESULT = (e1 != null && e2 != null) ? e1.equals(e2) : false; :}
+    | Exp:e1 OP_DIFERENTE Exp:e2
+    {: RESULT = (e1 != null && e2 != null) ? !e1.equals(e2) : false; :}
     | Numero:num
     {: 
         if (num.contains(".")) { RESULT = Double.valueOf(num); } 
@@ -150,6 +156,38 @@ Exp ::=
     | VALOR_VERDADERO {: RESULT = true; :}
     | VALOR_FALSO {: RESULT = false; :}
     | LITERAL_CARACTER:c {: RESULT = c.toString().replace("'", ""); :} 
+    ;
+
+FuncionInstr ::=
+    Identificador:f PARENTESIS_ABRE Identificador:x PARENTESIS_CIERRA SIGNO_IGUAL ExpString:ecuacion PUNTO_COMA
+    {:
+        if(f.toString().equalsIgnoreCase("f") || f.toString().equalsIgnoreCase("g")) {
+            String ecuacionLimpia = ecuacion.toString().replace(" ", "");
+            String url = "";
+            try {
+                String eqCodificada = java.net.URLEncoder.encode(ecuacionLimpia, "UTF-8");
+                url = "https://www.google.com/search?q=graph+" + eqCodificada;
+            } catch (Exception e) {
+                url = "Error al generar URL";
+            }
+            String msj1 = ">> ÉXITO: FUNCIÓN DETECTADA -> " + f + "(" + x + ") = " + ecuacionLimpia;
+            String msj2 = ">> URL GENERADA -> " + url;
+            
+            miJuez.registrarErrorSemantico(msj1); 
+            miJuez.registrarErrorSemantico(msj2);
+        }
+        RESULT = null;
+    :}
+    ;
+
+ExpString ::=
+      ExpString:e1 OP_SUMA ExpString:e2 {: RESULT = e1 + "+" + e2; :}
+    | ExpString:e1 OP_RESTA ExpString:e2 {: RESULT = e1 + "-" + e2; :}
+    | ExpString:e1 OP_MULTIPLICACION ExpString:e2 {: RESULT = e1 + "*" + e2; :}
+    | ExpString:e1 OP_DIVISION ExpString:e2 {: RESULT = e1 + "/" + e2; :}
+    | ExpString:e1 OP_POTENCIA ExpString:e2 {: RESULT = e1 + "^" + e2; :}
+    | Numero:num {: RESULT = num.toString(); :}
+    | Identificador:id {: RESULT = id.toString(); :}
     ;
 
 Tipo ::=

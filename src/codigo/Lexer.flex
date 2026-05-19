@@ -76,6 +76,7 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 ">"         {lexeme = yytext(); return OP_MAYOR; }
 "<"         {lexeme = yytext(); return OP_MENOR; }
 "=="        {lexeme = yytext(); return OP_IGUALDAD; }
+"="         {lexeme = yytext(); return SIGNO_IGUAL; }
 "!="        {lexeme = yytext(); return OP_DIFERENTE; }
 
 //==========================SIGNOS=============================================
@@ -118,3 +119,4 @@ COMENTARIO_MULTILINEA = "/*"([^*]|\*+[^*/])*\*+"/"
 <<EOF>> {
     return null;
 }
+

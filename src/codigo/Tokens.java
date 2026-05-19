@@ -48,7 +48,8 @@ public enum Tokens {
     VALOR_FALSO,
     EOF,
     COMENTARIO,
-    ERROR
+    ERROR,
+    SIGNO_IGUAL
 
 }
 //java -jar C:\jflex\JFlex.jar Lexer.flex

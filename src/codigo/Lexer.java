@@ -100,20 +100,20 @@ public final class Lexer {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\1\2\3\1\1\3\1\4\1\5\1\6"+
-    "\1\7\1\10\1\11\1\12\1\13\1\14\1\1\1\15"+
-    "\15\16\1\17\1\1\1\20\1\21\2\1\1\22\1\0"+
-    "\1\23\2\0\1\24\1\0\1\25\1\0\1\26\1\27"+
-    "\5\16\1\0\2\16\1\0\6\16\1\0\1\16\2\30"+
-    "\1\16\2\0\1\23\1\0\1\12\6\16\1\0\1\16"+
-    "\2\31\3\16\1\0\3\16\1\0\2\16\1\0\1\16"+
-    "\1\25\2\16\1\32\1\16\1\0\3\16\1\0\1\16"+
-    "\1\0\3\16\1\0\1\33\1\16\1\0\1\16\1\0"+
-    "\1\34\2\35\4\16\1\0\3\16\1\0\2\36\1\16"+
-    "\1\0\1\37\1\16\1\0\1\16\1\0\1\16\1\0"+
-    "\1\16\1\40\2\16\1\0\1\41\2\16\1\0\1\16"+
-    "\1\0\2\42\2\43\1\16\1\0\2\16\2\44\2\16"+
-    "\1\0\1\16\1\0\1\16\1\0\1\16\1\45\2\46"+
-    "\2\47\2\50\2\51\1\16\1\52";
+    "\1\7\1\10\1\11\1\12\1\13\1\14\1\15\1\16"+
+    "\15\17\1\20\1\1\1\21\1\22\2\1\1\23\1\0"+
+    "\1\24\2\0\1\25\1\0\1\26\1\0\1\27\1\30"+
+    "\5\17\1\0\2\17\1\0\6\17\1\0\1\17\2\31"+
+    "\1\17\2\0\1\24\1\0\1\12\6\17\1\0\1\17"+
+    "\2\32\3\17\1\0\3\17\1\0\2\17\1\0\1\17"+
+    "\1\26\2\17\1\33\1\17\1\0\3\17\1\0\1\17"+
+    "\1\0\3\17\1\0\1\34\1\17\1\0\1\17\1\0"+
+    "\1\35\2\36\4\17\1\0\3\17\1\0\2\37\1\17"+
+    "\1\0\1\40\1\17\1\0\1\17\1\0\1\17\1\0"+
+    "\1\17\1\41\2\17\1\0\1\42\2\17\1\0\1\17"+
+    "\1\0\2\43\2\44\1\17\1\0\2\17\2\45\2\17"+
+    "\1\0\1\17\1\0\1\17\1\0\1\17\1\46\2\47"+
+    "\2\50\2\51\2\52\1\17\1\53";
 
   private static int [] zzUnpackAction() {
     int [] result = new int[179];
@@ -847,212 +847,217 @@ public final class Lexer {
     return ERROR;
             }
           // fall through
-          case 43: break;
+          case 44: break;
           case 2:
             { /*Ignorar*/
             }
           // fall through
-          case 44: break;
+          case 45: break;
           case 3:
             { lexeme = yytext(); return PARENTESIS_ABRE;
             }
           // fall through
-          case 45: break;
+          case 46: break;
           case 4:
             { lexeme = yytext(); return PARENTESIS_CIERRA;
             }
           // fall through
-          case 46: break;
+          case 47: break;
           case 5:
             { lexeme = yytext(); return OP_MULTIPLICACION;
             }
           // fall through
-          case 47: break;
+          case 48: break;
           case 6:
             { lexeme = yytext(); return OP_SUMA;
             }
           // fall through
-          case 48: break;
+          case 49: break;
           case 7:
             { lexeme = yytext(); return COMA;
             }
           // fall through
-          case 49: break;
+          case 50: break;
           case 8:
             { lexeme = yytext(); return OP_RESTA;
             }
           // fall through
-          case 50: break;
+          case 51: break;
           case 9:
             { lexeme = yytext(); return OP_DIVISION;
             }
           // fall through
-          case 51: break;
+          case 52: break;
           case 10:
             { lexeme = yytext();  System.out.println("TOKEN: NUM-> " + lexeme); return Numero;
             }
           // fall through
-          case 52: break;
+          case 53: break;
           case 11:
             { lexeme = yytext(); return PUNTO_COMA;
             }
           // fall through
-          case 53: break;
+          case 54: break;
           case 12:
             { lexeme = yytext(); return OP_MENOR;
             }
           // fall through
-          case 54: break;
-          case 13:
-            { lexeme = yytext(); return OP_MAYOR;
-            }
-          // fall through
           case 55: break;
-          case 14:
-            { lexeme = yytext(); System.out.println("TOKEN: ID -> " + lexeme); return Identificador;
+          case 13:
+            { lexeme = yytext(); return SIGNO_IGUAL;
             }
           // fall through
           case 56: break;
-          case 15:
-            { lexeme = yytext(); return OP_POTENCIA;
+          case 14:
+            { lexeme = yytext(); return OP_MAYOR;
             }
           // fall through
           case 57: break;
-          case 16:
-            { lexeme = yytext(); return LLAVE_ABRE;
+          case 15:
+            { lexeme = yytext(); System.out.println("TOKEN: ID -> " + lexeme); return Identificador;
             }
           // fall through
           case 58: break;
-          case 17:
-            { lexeme = yytext(); return LLAVE_CIERRA;
+          case 16:
+            { lexeme = yytext(); return OP_POTENCIA;
             }
           // fall through
           case 59: break;
-          case 18:
-            { lexeme = yytext(); return OP_DIFERENTE;
+          case 17:
+            { lexeme = yytext(); return LLAVE_ABRE;
             }
           // fall through
           case 60: break;
-          case 19:
-            { lexeme = yytext(); return Cadena;
+          case 18:
+            { lexeme = yytext(); return LLAVE_CIERRA;
             }
           // fall through
           case 61: break;
-          case 20:
-            { lexeme = yytext(); return OP_POTENCIA_DOBLE;
+          case 19:
+            { lexeme = yytext(); return OP_DIFERENTE;
             }
           // fall through
           case 62: break;
-          case 21:
-            { lexeme = yytext(); return COMENTARIO;
+          case 20:
+            { lexeme = yytext(); return Cadena;
             }
           // fall through
           case 63: break;
-          case 22:
-            { lexeme = yytext(); return ASIGNACION;
+          case 21:
+            { lexeme = yytext(); return OP_POTENCIA_DOBLE;
             }
           // fall through
           case 64: break;
-          case 23:
-            { lexeme = yytext(); return OP_IGUALDAD;
+          case 22:
+            { lexeme = yytext(); return COMENTARIO;
             }
           // fall through
           case 65: break;
-          case 24:
-            { lexeme = yytext(); return CONTROL_SI;
+          case 23:
+            { lexeme = yytext(); return ASIGNACION;
             }
           // fall through
           case 66: break;
-          case 25:
-            { lexeme = yytext(); return RESERVADA_FIN;
+          case 24:
+            { lexeme = yytext(); return OP_IGUALDAD;
             }
           // fall through
           case 67: break;
-          case 26:
-            { lexeme = yytext(); return COMO;
+          case 25:
+            { lexeme = yytext(); return CONTROL_SI;
             }
           // fall through
           case 68: break;
-          case 27:
-            { lexeme = yytext(); return LEER;
+          case 26:
+            { lexeme = yytext(); return RESERVADA_FIN;
             }
           // fall through
           case 69: break;
-          case 28:
-            { lexeme = yytext(); return TIPO_REAL;
+          case 27:
+            { lexeme = yytext(); return COMO;
             }
           // fall through
           case 70: break;
-          case 29:
-            { lexeme = yytext(); return CONTROL_SINO;
+          case 28:
+            { lexeme = yytext(); return LEER;
             }
           // fall through
           case 71: break;
-          case 30:
-            { lexeme = yytext(); return VALOR_FALSO;
+          case 29:
+            { lexeme = yytext(); return TIPO_REAL;
             }
           // fall through
           case 72: break;
-          case 31:
-            { lexeme = yytext(); return CONTROL_HACER;
+          case 30:
+            { lexeme = yytext(); return CONTROL_SINO;
             }
           // fall through
           case 73: break;
-          case 32:
-            { lexeme = yytext(); return TIPO_CADENA;
+          case 31:
+            { lexeme = yytext(); return VALOR_FALSO;
             }
           // fall through
           case 74: break;
-          case 33:
-            { lexeme = yytext(); return TIPO_ENTERO;
+          case 32:
+            { lexeme = yytext(); return CONTROL_HACER;
             }
           // fall through
           case 75: break;
-          case 34:
-            { lexeme = yytext(); return RESERVADA_INICIO;
+          case 33:
+            { lexeme = yytext(); return TIPO_CADENA;
             }
           // fall through
           case 76: break;
-          case 35:
-            { lexeme = yytext(); return TIPO_LOGICO;
+          case 34:
+            { lexeme = yytext(); return TIPO_ENTERO;
             }
           // fall through
           case 77: break;
-          case 36:
-            { lexeme = yytext(); return DEFINIR;
+          case 35:
+            { lexeme = yytext(); return RESERVADA_INICIO;
             }
           // fall through
           case 78: break;
-          case 37:
-            { lexeme = yytext(); return TIPO_CARACTER;
+          case 36:
+            { lexeme = yytext(); return TIPO_LOGICO;
             }
           // fall through
           case 79: break;
-          case 38:
-            { lexeme = yytext(); return CONTROL_ENTONCES;
+          case 37:
+            { lexeme = yytext(); return DEFINIR;
             }
           // fall through
           case 80: break;
-          case 39:
-            { lexeme = yytext(); return ESCRIBIR;
+          case 38:
+            { lexeme = yytext(); return TIPO_CARACTER;
             }
           // fall through
           case 81: break;
-          case 40:
-            { lexeme = yytext(); return GRAFICAR;
+          case 39:
+            { lexeme = yytext(); return CONTROL_ENTONCES;
             }
           // fall through
           case 82: break;
-          case 41:
-            { lexeme = yytext(); return CONTROL_MIENTRAS;
+          case 40:
+            { lexeme = yytext(); return ESCRIBIR;
             }
           // fall through
           case 83: break;
-          case 42:
-            { lexeme = yytext(); return VALOR_VERDADERO;
+          case 41:
+            { lexeme = yytext(); return GRAFICAR;
             }
           // fall through
           case 84: break;
+          case 42:
+            { lexeme = yytext(); return CONTROL_MIENTRAS;
+            }
+          // fall through
+          case 85: break;
+          case 43:
+            { lexeme = yytext(); return VALOR_VERDADERO;
+            }
+          // fall through
+          case 86: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }
